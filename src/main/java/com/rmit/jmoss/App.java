@@ -1,5 +1,5 @@
 package main.java.com.rmit.jmoss;
-
+import java.awt.Toolkit;
 import java.util.Scanner;
 import main.java.com.rmit.jmoss.util.TableAscii;
 
@@ -46,7 +46,8 @@ public class App
         System.out.println("Please enter the option you want to use");
         System.out.println("1. Movie Search");
         System.out.println("2. Book Movie");
-        System.out.println("3. Exit");
+        System.out.println("9. Logout");
+        System.out.println("0. Exit");
 
         int option = scanner.nextInt();
 
@@ -57,10 +58,15 @@ public class App
             case 2:
                 showMovieBooking();
                 break;
-            case 3:
+            case 9:
+                logout();
+                break;
+            case 0:
                 exit();
                 break;
-
+            default:
+                System.err.out("Enter a valid option!");
+                break;
 
         }
 
@@ -84,8 +90,14 @@ public class App
 
     private static void showMovieBooking() {
     }
+    private static void logout() {
+        System.err.println("Logout Successful");
+        main(null);
+    }
 
     private static void exit() {
-        System.out.println("Beep!");
+        System.err.println("Shutdown Successful!");
+        Toolkit.getDefaultToolkit().beep();
+		    System.exit(0);
     }
 }

@@ -57,9 +57,15 @@ public class App
             case 2:
                 showMovieBooking();
                 break;
-            case 3:
+            case 9:
+            	logout();
+            	break;
+            case 0:
                 exit();
                 break;
+              default:
+            	  System.err.print("Enter a valid value ");
+            	  break;
 
 
         }
@@ -84,8 +90,15 @@ public class App
 
     private static void showMovieBooking() {
     }
+   
+    private static void logout() {
+   	 System.err.print("\n" + "Logout Successful" + "\n");
+        main(null);
+   }
 
     private static void exit() {
-        System.out.println("Beep!");
+    	 System.err.print("Shutdown Successful,Goodbye!!!");
+         Toolkit.getDefaultToolkit().beep();
+ 		System.exit(0); 
     }
 }

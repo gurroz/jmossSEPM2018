@@ -1,7 +1,7 @@
-package main.java.com.rmit.jmoss;
+package com.rmit.jmoss;
 
 import java.util.Scanner;
-import main.java.com.rmit.jmoss.util.TableAscii;
+import com.rmit.jmoss.util.TableAscii;
 
 public class App
 {

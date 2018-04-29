@@ -1,4 +1,4 @@
-package test.java.com.rmit.jmoss;
+package com.rmit.jmoss;
 
 import junit.framework.Test;
 import junit.framework.TestCase;

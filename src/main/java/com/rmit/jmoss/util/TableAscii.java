@@ -1,4 +1,4 @@
-package main.java.com.rmit.jmoss.util;
+package com.rmit.jmoss.util;
 
 import java.util.Arrays;
 

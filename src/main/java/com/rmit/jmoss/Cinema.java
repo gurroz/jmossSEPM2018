@@ -1,16 +1,16 @@
 package com.rmit.jmoss;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class Cinema {
 
 	private String name;
-	private Collection<Screening> screenings;
+	private Collection<Screening> screenings = new ArrayList<Screening>();
 	
 	// Constructor
-	public Cinema(String name, Collection<Screening> screenings) {
+	public Cinema(String name) {
 		this.setName(name);
-		this.setScreenings(screenings);
 	}
 
 	// Getters and Setters
@@ -25,12 +25,12 @@ public class Cinema {
 	public Collection<Screening> getScreenings() {
 		return screenings;
 	}
-
-	private void setScreenings(Collection<Screening> screenings) {
-		this.screenings = screenings;
-	}
 	
 	// Public methods
+	public void addScreening(Screening screening) {
+		this.screenings.add(screening);
+	}
+	
 	public String viewScreenings () {
 		// INCOMPLETE
 		return null;

@@ -1,29 +1,61 @@
 package com.rmit.jmoss;
 
+import java.util.ArrayList;
 import java.util.Collection;
 
 public class Screening {
 
+	private String id;
 	private String filmName;
+	private String cinemaName;
+	private String day;
 	private String time;
-	private Collection<Seat> seats;
-	private Collection<Ticket> tickets;
+	private String description;
+	private Collection<Seat> seats = new ArrayList<Seat>();
+	private Collection<Ticket> tickets = new ArrayList<Ticket>();
 	
 	// Constructor
-	public Screening(String filmName, String time, Collection<Seat> seats, Collection<Ticket> tickets) {
+	public Screening(String id, String filmName, String cinemaName, String day, 
+			String time, String description) {
+		this.setId(id);
 		this.setFilmName(filmName);
+		this.setCinemaName(cinemaName);
 		this.setTime(time);
-		this.setSeats(seats);
-		this.setTickets(tickets);
+		this.setDay(day);
+		this.setDescription(description);
 	}
 
 	// Getters and Setters
+	public String getId() {
+		return id;
+	}
+
+	private void setId(String id) {
+		this.id = id;
+	}
+	
 	public String getFilmName() {
 		return filmName;
 	}
 
 	private void setFilmName(String filmName) {
 		this.filmName = filmName;
+	}
+
+	public String getCinemaName() {
+		return cinemaName;
+	}
+
+	private void setCinemaName(String cinemaName) {
+		this.cinemaName = cinemaName;
+	}
+
+	public String getDay() {
+		return day;
+	}
+
+	private void setDay(String day) {
+		this.day = day;
 	}
 
 	public String getTime() {
@@ -34,23 +66,27 @@ public class Screening {
 		this.time = time;
 	}
 
-	public Collection<Seat> getSeats() {
-		return seats;
+	public String getDescription() {
+		return description;
 	}
 
-	private void setSeats(Collection<Seat> seats) {
-		this.seats = seats;
+	private void setDescription(String description) {
+		this.description = description;
+	}
+
+	public Collection<Seat> getSeats() {
+		return seats;
 	}
 
 	public Collection<Ticket> getTickets() {
 		return tickets;
 	}
-
-	private void setTickets(Collection<Ticket> tickets) {
-		this.tickets = tickets;
-	}	
 	
 	// Public methods
+	public void addSeat (Seat seat) {
+		this.seats.add(seat);
+	}
+	
 	public String viewSeats () {
 		// INCOMPLETE
 		return null;

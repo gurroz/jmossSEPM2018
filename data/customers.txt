@@ -1,0 +1,21 @@
+# This is the customer info file.
+# Each line of this file contains a customer info.
+# The order of the data is: id,email,suburb,
+# 
+# Note: Lines starting with # are comments and should be ignored.
+# 
+0001|1@gmail.com|MelbourneCBD
+0002|2@gmail.com|MelbourneCBD
+0003|3@gmail.com|MelbourneCBD
+0004|4@gmail.com|MelbourneCBD
+0005|5@gmail.com|MelbourneCBD
+0006|6@gmail.com|MelbourneCBD
+0007|7@gmail.com|MelbourneCBD
+0008|8@gmail.com|MelbourneCBD
+0009|9@gmail.com|MelbourneCBD
+0010|10@gmail.com|MelbourneCBD
+0011|11@gmail.com|MelbourneCBD
+0012|12@gmail.com|MelbourneCBD
+0013|13@gmail.com|MelbourneCBD
+0014|14@gmail.com|MelbourneCBD
+0015|15@gmail.com|MelbourneCBD

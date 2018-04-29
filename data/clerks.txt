@@ -1,0 +1,21 @@
+# This is the admin login info file.
+# Each line of this file contains a admin info.
+# The order of the data is: id,password
+# 
+# Note: Lines starting with # are comments and should be ignored.
+# 
+0001|mypassword01
+0002|mypassword02
+0003|mypassword03
+0004|mypassword04
+0005|mypassword05
+0006|mypassword06
+0007|mypassword07
+0008|mypassword08
+0009|mypassword09
+0010|mypassword10
+0011|mypassword11
+0012|mypassword12
+0013|mypassword13
+0014|mypassword14
+0015|mypassword15

@@ -1,0 +1,8 @@
+# This is the ticket info file.
+# Each line of this file contains a ticket info.
+# The order of the data is: ID,screeningID,customerID,seatnum
+# 
+# Note: Lines starting with # are comments and should be ignored.
+# 
+0001|0101|0006|A4
+0002|0103|0001|A2

@@ -1,5 +1,6 @@
 package com.rmit.jmoss;
 
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.util.Collection;
@@ -10,25 +11,32 @@ public class DataReadWrite {
 	private FileWriter writer;
 
 	// Getters and Setters
-	public FileReader getReader() {
+	private FileReader getReader() {
 		return reader;
 	}
 
-	public void setReader(FileReader reader) {
+	private void setReader(FileReader reader) {
 		this.reader = reader;
 	}
 
-	public FileWriter getWriter() {
+	private FileWriter getWriter() {
 		return writer;
 	}
 
-	public void setWriter(FileWriter writer) {
+	private void setWriter(FileWriter writer) {
 		this.writer = writer;
 	}
 	
 	// Public methods
 	public Clerk loadClerk(String username) {
-		// INCOMPLETE
+		
+		// Load all clerks using file reader
+		try {
+			setReader(new FileReader("data/tickets.txt"));
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		
 		return null;
 	}
 	

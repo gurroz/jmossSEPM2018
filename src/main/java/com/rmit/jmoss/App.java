@@ -79,7 +79,7 @@ public class App
                 "Name",
                 "Description"};
 
-        String[][] data = {
+        List[][] data = {
                 {"1", "Wolverine", "The wolverine movie"},
                 {"2", "Superman", "The Superman movie"},
                 {"3", "Spiderman", "The Spiderman movie"}

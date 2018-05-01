@@ -1,5 +1,6 @@
 package com.rmit.jmoss;
 
+import java.awt.*;
 import java.util.Scanner;
 import com.rmit.jmoss.util.TableAscii;
 
@@ -98,7 +99,7 @@ public class App
 
     private static void exit() {
     	 System.err.print("Shutdown Successful,Goodbye!!!");
-         Toolkit.getDefaultToolkit().beep();
- 		System.exit(0); 
+    	 Toolkit.getDefaultToolkit().beep();
+    	 System.exit(0);
     }
 }

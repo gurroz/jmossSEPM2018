@@ -2,6 +2,10 @@ package com.rmit.jmoss;
 
 import java.util.ArrayList;
 
+import com.rmit.jmoss.models.Cinema;
+import com.rmit.jmoss.models.Clerk;
+import com.rmit.jmoss.util.DataReadWrite;
+import com.rmit.jmoss.models.Screening;
 import org.junit.Test;
 
 import junit.framework.TestCase;

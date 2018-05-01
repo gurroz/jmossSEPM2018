@@ -1,4 +1,8 @@
-package com.rmit.jmoss;
+package com.rmit.jmoss.models;
+
+import com.rmit.jmoss.models.Customer;
+import com.rmit.jmoss.models.Screening;
+import com.rmit.jmoss.models.Seat;
 
 public class Ticket {
 

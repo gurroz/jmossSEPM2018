@@ -1,4 +1,4 @@
-package com.rmit.jmoss;
+package com.rmit.jmoss.models;
 
 public class Seat {
 

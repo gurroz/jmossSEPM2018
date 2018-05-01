@@ -1,5 +1,8 @@
 package com.rmit.jmoss;
 
+import com.rmit.jmoss.models.*;
+import com.rmit.jmoss.util.DataReadWrite;
+
 import java.util.Collection;
 
 public class JMoSS {

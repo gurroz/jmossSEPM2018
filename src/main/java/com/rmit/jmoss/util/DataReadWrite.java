@@ -1,4 +1,6 @@
-package com.rmit.jmoss;
+package com.rmit.jmoss.util;
+
+import com.rmit.jmoss.models.*;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;

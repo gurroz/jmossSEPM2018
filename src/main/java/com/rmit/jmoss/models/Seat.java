@@ -3,11 +3,13 @@ package com.rmit.jmoss.models;
 public class Seat {
 
 	private String number;
+	private Screening screening;
 	private boolean taken;
 	
 	// Constructor
-	public Seat (String number, boolean taken) {
+	public Seat (String number, Screening screening, boolean taken) {
 		this.setNumber(number);
+		this.setScreening(screening);
 		this.setTaken(taken);
 	}
 
@@ -18,6 +20,14 @@ public class Seat {
 
 	private void setNumber(String number) {
 		this.number = number;
+	}
+
+	public Screening getScreening() {
+		return screening;
+	}
+
+	private void setScreening(Screening screening) {
+		this.screening = screening;
 	}
 
 	public boolean isTaken() {

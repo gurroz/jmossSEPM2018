@@ -6,18 +6,28 @@ import com.rmit.jmoss.models.Seat;
 
 public class Ticket {
 
+	private String id;
 	private Customer customer;
 	private Screening screening;
 	private Seat seat;
 	
 	// Constructor
-	public Ticket(Customer customer, Screening screening, Seat seat) {
+	public Ticket(String id, Customer customer, Screening screening, Seat seat) {
+		this.setId(id);
 		this.setCustomer(customer);
 		this.setScreening(screening);
 		this.setSeat(seat);
 	}
 
 	// Getters and Setters
+	public String getId() {
+		return id;
+	}
+
+	private void setId(String id) {
+		this.id = id;
+	}
+	
 	public Customer getCustomer() {
 		return customer;
 	}

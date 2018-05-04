@@ -16,10 +16,6 @@ public class DataReadWrite {
 	private FileWriter writer;
 
 	// Getters and Setters
-	private BufferedReader getReader() {
-		return reader;
-	}
-
 	private void setReader(BufferedReader reader) {
 		this.reader = reader;
 	}
@@ -111,8 +107,121 @@ public class DataReadWrite {
 	}
 	
 	public Collection<Customer> loadCustomers() {
-		// INCOMPLETE
-		return null;
+		
+		// Set up customers list
+		ArrayList<Customer> customers = new ArrayList<Customer>();
+		
+		// Set up the reader
+		try {
+			setReader(new BufferedReader(new FileReader("data/customers.txt")));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		// Read in line
+		try {
+			String line = reader.readLine();
+			while (line != null) {
+				
+				// If line starts with '#', skip line
+				if (line.startsWith("#")) {
+					line = reader.readLine();
+					continue;
+				}
+				
+				// Split into tokens by "|"
+				String[] tokens = line.split("\\|");
+				String id = tokens[0];
+				String email = tokens[1];
+				String suburb = tokens[2];
+				
+				// Make customer
+				Customer customer = new Customer(id, email, suburb);
+				
+				// Add customer to list
+				customers.add(customer);
+				
+				// Go to next line
+				line = reader.readLine();
+			}
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		// Load screenings to associate with tickets
+		ArrayList<Screening> screenings = (ArrayList<Screening>) loadScreenings();
+		
+		// Set up the reader
+		try {
+			setReader(new BufferedReader(new FileReader("data/tickets.txt")));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		// Read in line
+		try {
+			String line = reader.readLine();
+			while (line != null) {
+				
+				// If line starts with '#', skip line
+				if (line.startsWith("#")) {
+					line = reader.readLine();
+					continue;
+				}
+				
+				// Split into tokens by "|"
+				String[] tokens = line.split("\\|");
+				String id = tokens[0];
+				String screeningID = tokens[1];
+				String customerID = tokens[2];
+				String seatNum = tokens[3];
+				
+				// Find screening
+				Screening screening = null;
+				for (Screening s : screenings) {
+					if (s.getId().equals(screeningID))
+						screening = s;
+				}
+				
+				// Find seat
+				Seat seat = null;
+				for (Seat s : screening.getSeats()) {
+					if (s.getNumber().equals(seatNum))
+						seat = s;
+				}
+				
+				// Find customer
+				Customer customer = null;
+				for (Customer c : customers) {
+					if (c.getId().equals(customerID)) {
+						customer = c;
+						break;
+					}
+				}
+				
+				// Make ticket
+				Ticket ticket = new Ticket(id, customer, screening, seat);
+				
+				// Add ticket to customer
+				customer.addTicket(ticket);
+				
+				// Go to next line
+				line = reader.readLine();
+			}
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return null;
+		}
+		
+		
+		return customers;
 	}
 	
 	public Collection<Screening> loadScreenings() {
@@ -162,7 +271,7 @@ public class DataReadWrite {
 						
 					// Set up seat
 					String number = tokens[i].substring(1);
-					Seat seat = new Seat(number, taken);
+					Seat seat = new Seat(number, screening, taken);
 					
 					// Add seat to screening
 					screening.addSeat(seat);

@@ -21,7 +21,7 @@ public class Customer {
 		return id;
 	}
 
-	private void setId(String id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 	

@@ -1,7 +1,6 @@
 package com.rmit.jmoss.models;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class Screening {
 
@@ -11,8 +10,8 @@ public class Screening {
 	private String day;
 	private String time;
 	private String description;
-	private Collection<Seat> seats = new ArrayList<Seat>();
-	private Collection<Ticket> tickets = new ArrayList<Ticket>();
+	private ArrayList<Seat> seats = new ArrayList<Seat>();
+	private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 	
 	// Constructor
 	public Screening(String id, String filmName, String cinemaName, String day, 
@@ -74,11 +73,11 @@ public class Screening {
 		this.description = description;
 	}
 
-	public Collection<Seat> getSeats() {
+	public ArrayList<Seat> getSeats() {
 		return seats;
 	}
 
-	public Collection<Ticket> getTickets() {
+	public ArrayList<Ticket> getTickets() {
 		return tickets;
 	}
 	

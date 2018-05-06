@@ -1,21 +1,30 @@
 package com.rmit.jmoss.models;
 
-import java.util.Collection;
+import java.util.ArrayList;
 
 public class Customer {
 
+	private String id;
 	private String email;
 	private String suburb;
-	private Collection<Ticket> tickets;
+	private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 	
 	// Constructor
-	public Customer (String email, String suburb, Collection<Ticket> tickets) {
+	public Customer (String id, String email, String suburb) {
+		this.setId(id);
 		this.setEmail(email);
 		this.setSuburb(suburb);
-		this.setTickets(tickets);
 	}
 
 	// Getters and Setters
+	public String getId() {
+		return id;
+	}
+
+	public void setId(String id) {
+		this.id = id;
+	}
+	
 	public String getEmail() {
 		return email;
 	}
@@ -32,16 +41,12 @@ public class Customer {
 		this.suburb = suburb;
 	}
 
-	public Collection<Ticket> getTickets() {
+	public ArrayList<Ticket> getTickets() {
 		return tickets;
-	}
-
-	private void setTickets(Collection<Ticket> tickets) {
-		this.tickets = tickets;
 	}
 	
 	// Public methods
-	public void addTickets(Ticket ticket) {
+	public void addTicket(Ticket ticket) {
 		this.tickets.add(ticket);
 	}
 }

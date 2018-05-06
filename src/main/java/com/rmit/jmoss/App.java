@@ -1,6 +1,7 @@
 package com.rmit.jmoss;
 
 import java.awt.*;
+import java.io.FileNotFoundException;
 import java.util.Scanner;
 import com.rmit.jmoss.util.TableAscii;
 
@@ -9,37 +10,15 @@ public class App
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        login(scanner);
-        showMenu(scanner);
-    }
-
-    private static void login(Scanner scanner) {
-        String homeLogo = "    _ __  __       _____ _____ \n" +
-                "   (_)  \\/  |     / ____/ ____|\n" +
-                "    _| \\  / | ___| (___| (___  \n" +
-                "   | | |\\/| |/ _ \\\\___ \\\\___ \\ \n" +
-                "   | | |  | | (_) |___) |___) |\n" +
-                "   | |_|  |_|\\___/_____/_____/ \n" +
-                "  _/ |                         \n" +
-                " |__/                          ";
-
-        System.out.println(homeLogo);
-        System.out.println("Welcome to ABC Cineplex booking system! Please enter with your credentials.");
-        System.out.println("");
-
-        // create a scanner so we can read the command-line input
-
-        //  prompt for the user's name
-        System.out.print("User id: ");
-
-        // get their input as a String
-        String username = scanner.next();
-
-        // prompt for their age
-        System.out.print("Password: ");
-
-        // get the age as an int
-        String password = scanner.next();
+        try {
+            if(Login.loginCheck(scanner)) {
+                showMenu(scanner);
+            } else {
+                System.out.println("Could not log in. Please check credentials.");
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void showMenu(Scanner scanner) {
@@ -47,7 +26,8 @@ public class App
         System.out.println("Please enter the option you want to use");
         System.out.println("1. Movie Search");
         System.out.println("2. Book Movie");
-        System.out.println("3. Exit");
+        System.out.println("3. Log Out");
+        System.out.println("0. Exit");
 
         int option = scanner.nextInt();
 
@@ -58,7 +38,7 @@ public class App
             case 2:
                 showMovieBooking();
                 break;
-            case 9:
+            case 3:
             	logout();
             	break;
             case 0:
@@ -94,12 +74,12 @@ public class App
    
     private static void logout() {
    	 System.err.print("\n" + "Logout Successful" + "\n");
-        main(null);
+   	 main(null);
    }
 
     private static void exit() {
-    	 System.err.print("Shutdown Successful,Goodbye!!!");
-    	 Toolkit.getDefaultToolkit().beep();
-    	 System.exit(0);
+        System.err.print("Shutdown Successful,Goodbye!!!");
+        Toolkit.getDefaultToolkit().beep();
+        System.exit(0);
     }
 }

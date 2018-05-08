@@ -12,13 +12,13 @@ import java.util.Collection;
 public class SearchMovieByNameTest extends TestCase {
 
 	@Test
-	public void movieExists () throws FilmNameTooShortException {
+	public void testMovieExists() throws FilmNameTooShortException {
 		Collection<Screening> movies = JMossService.getInstance().searchByFilmName("Ready");
 		assertEquals(movies.isEmpty(), false);
 	}
 
 	@Test
-	public void movieNotExists () throws FilmNameTooShortException {
+	public void testMovieNotExists() throws FilmNameTooShortException {
 		Collection<Screening> movies = JMossService.getInstance().searchByFilmName("dsads001");
 		assertEquals(movies.isEmpty(), true);
 	}

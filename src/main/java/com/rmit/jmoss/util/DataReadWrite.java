@@ -10,6 +10,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 public class DataReadWrite {
 
@@ -30,7 +31,7 @@ public class DataReadWrite {
 	}
 	
 	// Public methods
-	public Clerk loadClerk(String username) {
+	public Collection<Clerk> loadClerk() {
 		
 		// Set up the reader
 		try {
@@ -40,9 +41,12 @@ public class DataReadWrite {
 			e.printStackTrace();
 			return null;
 		}
-		
+
+		ArrayList<Clerk> clerks = new ArrayList<Clerk>();
+
 		// Read in line
 		try {
+
 			String line = reader.readLine();
 			while (line != null) {
 				
@@ -58,11 +62,8 @@ public class DataReadWrite {
 				String user = tokens[1];
 				String pass = tokens[2];
 				
-				// Only make clerk object if user matches
-				if (user.equals(username)) {
-					return new Clerk(id, user, pass);
-				}
-				
+				clerks.add(new Clerk(id, user, pass));
+
 				// Go to next line
 				line = reader.readLine();
 			}
@@ -72,7 +73,7 @@ public class DataReadWrite {
 			return null;
 		}
 		
-		return null;
+		return clerks;
 	}
 	
 	public Collection<Cinema> loadCinemas() {

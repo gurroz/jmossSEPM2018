@@ -1,25 +1,33 @@
 package com.rmit.jmoss;
 
-import com.rmit.jmoss.models.*;
+import com.rmit.jmoss.models.Cinema;
+import com.rmit.jmoss.models.Clerk;
+import com.rmit.jmoss.models.Customer;
+import com.rmit.jmoss.models.Screening;
 import com.rmit.jmoss.util.DataReadWrite;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
+/**
+ * Used to store all the files in memory. Use it as a DAO
+ */
 public class JMoSS {
 	
 	private DataReadWrite dataReadWrite;
 	private Collection<Cinema> cinemas;
 	private Collection<Screening> screenings;
 	private Collection<Customer> customers;
-	private Clerk clerk;
+	private Collection<Clerk> clerks;
 	
 	// Constructor
-	public JMoSS(DataReadWrite dataReadWrite, Collection<Cinema> cinemas, 
-			Collection<Screening> screenings, Collection<Customer> customers) {
+	public JMoSS(DataReadWrite dataReadWrite) {
 		this.setDataReadWrite(dataReadWrite);
-		this.setCinemas(cinemas);
-		this.setScreenings(screenings);
-		this.setCustomers(customers);
+		this.cinemas = dataReadWrite.loadCinemas();
+		this.screenings = dataReadWrite.loadScreenings();
+		this.customers = dataReadWrite.loadCustomers();
+		this.clerks = dataReadWrite.loadClerk();
 	}
 
 	// Getters and Setters
@@ -55,12 +63,12 @@ public class JMoSS {
 		this.customers = customers;
 	}
 
-	public Clerk getClerk() {
-		return clerk;
+	public Collection<Clerk> getClerks() {
+		return clerks;
 	}
 
-	private void setClerk(Clerk clerk) {
-		this.clerk = clerk;
+	private void setClerks(Collection<Clerk> clerks) {
+		this.clerks = clerks;
 	}
 
 	// Public methods
@@ -79,14 +87,30 @@ public class JMoSS {
 		return false;
 	}
 	
-	public boolean searchByFilm () {
-		// INCOMPLETE
-		return false;
+	public Collection<Screening> searchByFilm (String filmName) {
+		List<Screening> screenings = new ArrayList<Screening>();
+		for(Screening screening : this.getScreenings()) {
+			if(screening.getFilmName().toLowerCase().indexOf(filmName.toLowerCase()) > -1) {
+				screenings.add(screening);
+			}
+		}
+
+		return screenings;
 	}
 	
 	public boolean searchByCustomer () {
 		// INCOMPLETE
 		return false;
+	}
+
+	public Clerk searchClerk(String username, String password) {
+		for(Clerk clerks : this.getClerks()) {
+			if(clerks.getUsername().equals(username) && clerks.getPassword().equals(password)) {
+				return clerks;
+			}
+		}
+
+		return null;
 	}
 	
 	public boolean viewScreening () {

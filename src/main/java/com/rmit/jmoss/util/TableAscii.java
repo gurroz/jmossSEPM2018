@@ -9,33 +9,29 @@ public class TableAscii {
     private final String TABLE_LINE_SEPARATOR = "+";
     private final String TABLE_ROW = "%n";
 
-    private String[] headers;
+    private List<String> headers;
     private List<List<String>> data;
     private List<Integer> columns;
 
     public TableAscii() {}
 
-    public TableAscii(String[] headers, List<List<String>> dataRows) {
+    public TableAscii(List<String> headers, List<List<String>> dataRows) {
         this.headers = headers;
         this.columns = new ArrayList<Integer>();
         this.data = new ArrayList<List<String>>();
-        for(int i = 0; i < headers.length; i++) {
-            columns.add(headers[i].length());
+        for(int i = 0; i < headers.size(); i++) {
+            columns.add(headers.get(i).length());
         }
 
         this.data = dataRows;
         for(int i = 0; i < dataRows.size(); i++) {
-            for(int j = 0; j < dataRows.size(); j++) {
+            for(int j = 0; j < headers.size(); j++) {
                 int actualValue = columns.get(j);
                 if(actualValue < dataRows.get(i).get(j).length()) {
                     columns.set(j, dataRows.get(i).get(j).length());
                 }
             }
         }
-    }
-
-    public void setHeaders(String[] headers) {
-        this.headers = headers;
     }
 
     public void printTable() {
@@ -46,9 +42,9 @@ public class TableAscii {
     private void printHeader() {
         printNewLine();
 
-        for(int i = 0; i < headers.length; i++) {
-            int diference = columns.get(i) - headers[i].length();
-            System.out.print("| " + headers[i] );
+        for(int i = 0; i < headers.size(); i++) {
+            int diference = columns.get(i) - headers.get(i).length();
+            System.out.print("| " + headers.get(i) );
             for(int j = 0; j <= diference; j++) {
                 System.out.print(" ");
             }
@@ -61,7 +57,7 @@ public class TableAscii {
 
         for(List<String> rows : data) {
             for(int i = 0; i < rows.size(); i++) {
-                System.out.print("| " + rows.get(i) + " |");
+                System.out.print("| " + String.format("%1$" + columns.get(i) + "s", rows.get(i))  + " |");
             }
             printNewLine();
         }
@@ -85,7 +81,7 @@ public class TableAscii {
     @Override
     public String toString() {
         return "TableAscii{" +
-                "headers=" + Arrays.toString(headers) +
+                "headers=" + Arrays.toString(headers.toArray()) +
                 ", data=" + data +
                 '}';
     }

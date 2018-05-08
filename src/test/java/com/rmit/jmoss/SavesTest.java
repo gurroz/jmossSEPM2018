@@ -12,7 +12,7 @@ import com.rmit.jmoss.models.Seat;
 import com.rmit.jmoss.models.Ticket;
 import com.rmit.jmoss.util.DataReadWrite;
 
-public class TestSaves {
+public class SavesTest {
 
 	@Test
 	public void testSaveTicketWithNewCustomer() {

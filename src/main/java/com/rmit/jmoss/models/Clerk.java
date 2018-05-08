@@ -37,10 +37,24 @@ public class Clerk {
 	private void setUsername(String username) {
 		this.username = username;
 	}
-	
-	// Public methods
-	public boolean login (String password) {
-		// INCOMPLETE		
-		return false;
+
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (o == null || getClass() != o.getClass()) return false;
+
+		Clerk clerk = (Clerk) o;
+
+		if (!id.equals(clerk.id)) return false;
+		if (!username.equals(clerk.username)) return false;
+		return password.equals(clerk.password);
+	}
+
+	@Override
+	public int hashCode() {
+		int result = id.hashCode();
+		result = 31 * result + username.hashCode();
+		result = 31 * result + password.hashCode();
+		return result;
 	}
 }

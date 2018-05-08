@@ -1,40 +1,41 @@
 package com.rmit.jmoss;
 
-import java.util.ArrayList;
-
-import com.rmit.jmoss.models.Cinema;
-import com.rmit.jmoss.models.Clerk;
-import com.rmit.jmoss.models.Customer;
+import com.rmit.jmoss.models.*;
 import com.rmit.jmoss.util.DataReadWrite;
-import com.rmit.jmoss.models.Screening;
-import com.rmit.jmoss.models.Seat;
-import com.rmit.jmoss.models.Ticket;
-
+import junit.framework.TestCase;
 import org.junit.Test;
 
-import junit.framework.TestCase;
+import java.util.ArrayList;
+import java.util.Collection;
 
-public class TestLoads extends TestCase {
+public class LoadsTest extends TestCase {
 
 	@Test
 	public void testLoadClerk () {
 		DataReadWrite readWrite = new DataReadWrite();
-		
-//		String username = "User1";
-//		Clerk clerk = readWrite.loadClerk(username);
-//		assertEquals(clerk.getId(), "0001");
-//
-//		username = "User9";
-//		clerk = readWrite.loadClerk(username);
-//		assertEquals(clerk.getId(), "0009");
-//
-//		username = "User15";
-//		clerk = readWrite.loadClerk(username);
-//		assertEquals(clerk.getId(), "0015");
-//
-//		username = "NotAUser";
-//		clerk = readWrite.loadClerk(username);
-//		assertNull(clerk);
+
+		Clerk searchedClerk = new Clerk("0001", "User1","mypassword01");
+		Collection<Clerk> clerks = readWrite.loadClerk();
+
+		boolean found = false;
+		for(Clerk clerk : clerks) {
+			if(clerk.equals(searchedClerk)) {
+				found = true;
+				break;
+			}
+		}
+		assertEquals(found, true);
+
+		Clerk notExisting = new Clerk("0fd1", "fdfs","rewre");
+
+		found = false;
+		for(Clerk clerk : clerks) {
+			if(clerk.equals(notExisting)) {
+				found = true;
+				break;
+			}
+		}
+		assertEquals(found, false);
 	}
 	
 	@Test

@@ -2,6 +2,7 @@ package com.rmit.jmoss;
 
 import com.rmit.jmoss.exceptions.CredentialsTooShortException;
 import com.rmit.jmoss.exceptions.FilmNameTooShortException;
+import com.rmit.jmoss.exceptions.NotEnoughInformationException;
 import com.rmit.jmoss.models.Screening;
 import com.rmit.jmoss.util.DataReadWrite;
 import com.rmit.jmoss.util.TableAscii;
@@ -162,15 +163,41 @@ public class MenuService {
     private void showMovieDetail(String id) {
         try {
             Screening screening = jMossService.getScreenById(id);
-            screening.viewSeats();
-
+            System.out.printf("id: %s || name: %s || cinema: %S || day: %s || time: %s", screening.getId(),screening.getFilmName(), screening.getCinemaName(), screening.getDay(),screening.getTime());
+            System.out.printf("\nDescription: ", screening.getDescription());
+            if(screening.viewSeats()) {
+            	System.out.println("* Enter seat number you want to book ");
+                String seat = scanner.next();
+                makeBooking(screening, seat);
+            }else {
+            	System.out.println("* Enter the id of the movie to show the detail: ");
+                String movieId = scanner.next();
+                showMovieDetail(movieId);
+            }
         } catch (FilmNameTooShortException e) {
             e.printStackTrace();
         }
-
     }
+    
+    private void makeBooking(Screening screening, String seat) {
+		
+    	try {
+    		System.out.println("* Enter your email:");
+    		String email = scanner.next();
+    		System.out.println("* Enter your suburb:");
+    		String suburb = scanner.next();
+    		
+    		jMossService.book(screening.getId(),email, suburb, seat);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	} catch (NotEnoughInformationException e) {
+			e.printStackTrace();
+		}
+    	
+    	
+	}
 
-    private void logout() {
+	private void logout() {
         System.out.println("\n" + "Logout Successful" + "\n");
         showLogin();
     }

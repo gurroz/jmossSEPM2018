@@ -84,9 +84,16 @@ public class JMoSS {
 		return false;
 	}
 	
-	public boolean searchByCinema () {
-		// INCOMPLETE
-		return false;
+	public Collection<Screening> searchByCinema (String cineplex) {
+		List<Screening> screenings = new ArrayList<Screening>();
+	
+		for(Screening screening : this.getScreenings()) {
+			if(screening.getCinemaName().toLowerCase().indexOf(cineplex.toLowerCase()) > -1){
+				screenings.add(screening);
+			}
+		}
+		
+		return screenings;
 	}
 	
 	public Collection<Screening> searchByFilm (String filmName) {

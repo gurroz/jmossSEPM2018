@@ -1,6 +1,9 @@
 package com.rmit.jmoss.models;
 
 import java.util.ArrayList;
+import java.util.List;
+
+import com.rmit.jmoss.util.TableAscii;
 
 public class Screening {
 
@@ -86,9 +89,54 @@ public class Screening {
 		this.seats.add(seat);
 	}
 	
-	public String viewSeats () {
-		// INCOMPLETE
-		return null;
+	public void viewSeats () {
+		// WORKING
+    	if(seatsFull(seats)) {return;}
+		List<String> sr1 = new ArrayList<String>();
+        List<String> sr2 = new ArrayList<String>();
+        List<String> sr3 = new ArrayList<String>();
+        List<String> sr4 = new ArrayList<String>();
+    	for(Seat seat:seats) {
+    		String[] tokens = seat.getNumber().split("");
+			String r = tokens[0];
+			String c = tokens[1];
+			if(r == "A") 
+				if(!seat.isTaken()) {sr1.add(seat.getNumber());}
+				else{sr1.add("N/A");}
+			if(r == "B") 
+				if(!seat.isTaken()) {sr2.add(seat.getNumber());}
+				else{sr2.add("N/A");}
+			if(r == "C") 
+				if(!seat.isTaken()) {sr3.add(seat.getNumber());}
+				else{sr3.add("N/A");}
+			if(r == "D") 
+				if(!seat.isTaken()) {sr4.add(seat.getNumber());}
+				else{sr4.add("N/A");}
+    	}
+    	List<List<String>> sl = new ArrayList<List<String>>();
+    	sl.add(sr1);
+    	sl.add(sr2);
+    	sl.add(sr3);
+    	sl.add(sr4);
+    	List<String> headers = new ArrayList<String>();
+    	headers.add("col1");
+    	headers.add("col2");
+    	headers.add("col3");
+    	headers.add("col4");
+    	headers.add("col5");
+		TableAscii table = new TableAscii(headers,sl);
+		table.printTable();
+		return;
+	}
+	
+	private boolean seatsFull(ArrayList<Seat> seats) {
+		for(int i=0; i<seats.size();i++){
+			if(!((ArrayList<Seat>) seats).get(i).isTaken()) {
+				return false;
+			}
+		}
+		System.err.println("SORRY - No seats available this session");
+		return true;
 	}
 	
 	public boolean addBooking (Ticket ticket) {

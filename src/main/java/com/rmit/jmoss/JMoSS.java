@@ -115,9 +115,16 @@ public class JMoSS {
 		return null;
 	}
 	
-	public boolean viewScreening () {
-		// INCOMPLETE
-		return false;
+	public Screening getScreening(String id) {
+		Screening screen = null;
+		for(Screening screening : this.getScreenings()) {
+			if(screening.getId().equals(id)) {
+				screen = screening;
+				break;
+			}
+		}
+
+		return screen;
 	}
 	
 	public boolean addBooking (Customer bookCust, Screening event, Seat bookSeat) {

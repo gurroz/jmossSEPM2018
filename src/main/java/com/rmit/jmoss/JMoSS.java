@@ -115,6 +115,7 @@ public class JMoSS {
 	
 	public boolean viewScreening () {
 		// INCOMPLETE
+		
 		return false;
 	}
 	

@@ -127,14 +127,34 @@ public class JMoSS {
 		return screen;
 	}
 	
-	public boolean addBooking (Customer bookCust, Screening event, Seat bookSeat) {
-		if (!bookSeat.isTaken()) {
+	public boolean getCustomer(String email) {
+		Customer customer = null;
+		for(Customer customerS : this.getCustomers()) {
+			if(customerS.getEmail().equals(email))
+				customer = customerS;
+			
+		}
+		return true;
+		
+		
+	}
+	
+	public 
+	
+	public boolean addBooking (String screenID, String email, String seatNum) {
+	
+		 
+		
+		
+		
+		if (getScreening(screenID).getSeats().contains(seatNum) && getScreening(screenID).getSeats()) {
 			
 			
 			
 			
 			
 			String id = null; //ticket id
+			if (getCustomer(email).))
 			Ticket ticket = new Ticket(id , bookCust, event, bookSeat);
 			event.addBooking(ticket);
 			dataReadWrite.saveTicket(ticket);

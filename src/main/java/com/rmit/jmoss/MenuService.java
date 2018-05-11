@@ -143,7 +143,14 @@ public class MenuService {
     }
 
     private void showMovieDetail(String id) {
-        // Implement the detail view of a movie
+        try {
+            Screening screening = jMossService.getScreenById(id);
+            screening.viewSeats();
+
+        } catch (FilmNameTooShortException e) {
+            e.printStackTrace();
+        }
+
     }
 
     private void logout() {

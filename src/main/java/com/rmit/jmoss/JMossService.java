@@ -50,4 +50,11 @@ public class JMossService {
         }
     }
 
+    public Screening getScreenById(String id) throws FilmNameTooShortException {
+        if(id == null) {
+            throw new FilmNameTooShortException();
+        }
+
+        return this.jMoss.getScreening(id);
+    }
 }

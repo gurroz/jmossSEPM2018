@@ -100,16 +100,16 @@ public class Screening {
     		String[] tokens = seat.getNumber().split("");
 			String r = tokens[0];
 			String c = tokens[1];
-			if(r == "A") 
+			if(r.equals("A"))
 				if(!seat.isTaken()) {sr1.add(seat.getNumber());}
 				else{sr1.add("N/A");}
-			if(r == "B") 
+			if(r.equals("B"))
 				if(!seat.isTaken()) {sr2.add(seat.getNumber());}
 				else{sr2.add("N/A");}
-			if(r == "C") 
+			if(r.equals( "C"))
 				if(!seat.isTaken()) {sr3.add(seat.getNumber());}
 				else{sr3.add("N/A");}
-			if(r == "D") 
+			if(r.equals("D"))
 				if(!seat.isTaken()) {sr4.add(seat.getNumber());}
 				else{sr4.add("N/A");}
     	}
@@ -119,14 +119,16 @@ public class Screening {
     	sl.add(sr3);
     	sl.add(sr4);
     	List<String> headers = new ArrayList<String>();
-    	headers.add("col1");
-    	headers.add("col2");
-    	headers.add("col3");
-    	headers.add("col4");
-    	headers.add("col5");
+    	headers.add("");
+    	headers.add("");
+    	headers.add("");
+    	headers.add("");
+    	headers.add("");
+
 		TableAscii table = new TableAscii(headers,sl);
 		table.printTable();
 		return;
+
 	}
 	
 	private boolean seatsFull(ArrayList<Seat> seats) {

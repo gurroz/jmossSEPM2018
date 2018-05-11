@@ -72,6 +72,8 @@ public class MenuService {
         System.out.println("2. Cineplex Search");
         System.out.println("3. Movie Search");
         System.out.println("4. Log Out");
+        System.out.println("5. Book a movie sesion");
+        System.out.println("6. Delete booking");
         System.out.println("0. Exit");
 
         int option = scanner.nextInt();
@@ -87,6 +89,11 @@ public class MenuService {
             case 4:
                 logout();
                 break;
+            case 5:
+            	book();
+            	break;
+            case 6:
+            	deletebook();
             case 0:
                 exit();
                 break;
@@ -97,7 +104,17 @@ public class MenuService {
         }
     }
 
-    private void showMovieSearch() {
+    private void deletebook() {
+		// TODO 
+		
+	}
+
+	private void book() {
+		// TODO 
+		
+	}
+
+	private void showMovieSearch() {
         System.out.println("");
         System.out.println("* Enter the name of the movie you are looking for: ");
 

@@ -91,13 +91,13 @@ public class Screening {
 		return null;
 	}
 	
-	public boolean addBooking (Customer customer, Seat seat) {
-		// INCOMPLETE
+	public boolean addBooking (Ticket ticket) {
+		tickets.add(ticket);
 		return false;
 	}
 	
 	public boolean removeBooking (Ticket ticket) {
-		// INCOMPLETE
+		tickets.remove(ticket);
 		return false;
 	}
 }

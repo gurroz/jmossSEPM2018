@@ -150,4 +150,14 @@ public class Screening {
 		tickets.remove(ticket);
 		return false;
 	}
+
+	public Seat geatSeatByNumber(String seatNumber) {
+		Seat seatResp = null;
+		for(Seat seat : this.seats){
+			if(!seat.getNumber().equals(seatNumber)) {
+				return seatResp;
+			}
+		}
+		return seatResp;
+	}
 }

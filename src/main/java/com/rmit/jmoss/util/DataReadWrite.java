@@ -307,14 +307,14 @@ public class DataReadWrite {
 		for (Customer c : customers) {
 			
 			// Check if customer exists
-			if (c.getEmail().equals(customer.getEmail())) {
+			if (c.getEmail().toLowerCase().equals(customer.getEmail().toLowerCase())) {
 				exists = true;
+				ticket.setCustomer(c);
+				break;
 			}
 			
 			// Update id to next smallest number
-			if (newID < Integer.parseInt(c.getId())) {
-				newID = Integer.parseInt(c.getId()) + 1;
-			}
+			newID = Integer.parseInt(c.getId()) + 1;
 		}
 		
 		// If doesn't exist, generate new id and save customer
@@ -389,9 +389,7 @@ public class DataReadWrite {
 //				System.err.print(line);
 				
 				// Find smallest new id
-				if (newID < Integer.parseInt(t.getId())){
-					newID = Integer.parseInt(t.getId()) + 1;
-				}
+				newID = Integer.parseInt(t.getId()) + 1;
 			}
 		}
 		

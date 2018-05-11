@@ -157,12 +157,12 @@ public class MenuService {
     private void showMovieDetail(String id) {
         try {
             Screening screening = jMossService.getScreenById(id);
-            System.out.printf("id: %s || name: %s || cinema: %S || day: %s || time: %s", screening.getId(),screening.getFilmName(), screening.getCinemaName(), screening.getDay(),screening.getTime());
+            System.out.printf("Id: %s || Name: %s || Cinema: %S || Day: %s || Time: %s", screening.getId(),screening.getFilmName(), screening.getCinemaName(), screening.getDay(),screening.getTime());
             System.out.printf("\nDescription: ", screening.getDescription());
             if(screening.viewSeats()) {
-            	System.out.println("* Enter seat number you want to book ");
-                String seat = scanner.next();
-                makeBooking(screening, seat);
+            	System.out.println("* Enter the seats number you want to book, separated by comas");
+                String seats = scanner.next();
+                makeBooking(screening, seats);
             } else {
             	System.out.println("* Enter the id of the movie to show the detail: ");
                 String movieId = scanner.next();
@@ -173,24 +173,33 @@ public class MenuService {
         }
     }
     
-    private void makeBooking(Screening screening, String seat) {
-		
+    private void makeBooking(Screening screening, String seats) {
     	try {
     		System.out.println("* Enter your email:");
     		String email = scanner.next();
     		System.out.println("* Enter your suburb:");
     		String suburb = scanner.next();
 
-            Ticket ticket = jMossService.book(screening.getId(), email, suburb, seat);
+            String[] seatNumbers = seats.split(",");
 
-            if(ticket == null) {
-                System.out.println("Could not book the desire seat. Please try again with a different one.");
-                showMovieDetail(screening.getId());
-                return;
+            List<Ticket> tickets = new ArrayList<Ticket>();
+            for(int i = 0; i < seatNumbers.length ; i++) {
+                Ticket ticket = jMossService.book(screening.getId(), email, suburb, seatNumbers[i]);
+                if(ticket == null) {
+                    System.out.println("Could not book the desire seat " + seatNumbers[i] + ". Please try again with a different one.");
+                    System.out.println("");
+
+                    showMovieDetail(screening.getId());
+                    return;
+                }
+                tickets.add(ticket);
             }
 
-            System.out.println("Continue with the following ticket booking?");
-            System.out.println(ticket.printDetails());
+            System.out.println("Continue with the following tickets booking?");
+            for(Ticket ticket : tickets) {
+                System.out.println(ticket.printDetails());
+            }
+
             System.out.println("0. No");
             System.out.println("1. Yes");
 
@@ -198,16 +207,20 @@ public class MenuService {
                 int option = scanner.nextInt();
 
                 if(option == 1) {
-                    jMossService.confirmBooking(ticket);
-                    System.out.println("Ticket booked correctly -> " + ticket.printDetails());
+                    for(Ticket ticket : tickets) {
+                        jMossService.confirmBooking(ticket);
+                    }
+
+                    System.out.println("Tickets booked correctly ");
                 } else {
                     showMovieDetail(screening.getId());
                     return;
                 }
             }  catch (Exception e) {
                 System.err.println("** Enter a valid option");
+                e.printStackTrace();
                 scanner.nextLine();
-                makeBooking(screening, seat);
+                makeBooking(screening, seats);
             }
 
     	} catch(Exception e) {

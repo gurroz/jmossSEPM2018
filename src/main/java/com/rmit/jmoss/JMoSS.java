@@ -1,6 +1,5 @@
 package com.rmit.jmoss;
 
-import com.rmit.jmoss.exceptions.NotEnoughInformationException;
 import com.rmit.jmoss.models.Cinema;
 import com.rmit.jmoss.models.Clerk;
 import com.rmit.jmoss.models.Customer;
@@ -143,7 +142,7 @@ public class JMoSS {
 	}
 		
 	public Ticket addBooking(Screening screening, String email, String suburb, String seatNum) {
-		Seat seat = screening.geatSeatByNumber(seatNum);
+		Seat seat = screening.getSeatByNumber(seatNum);
 		if (seat != null && !seat.isTaken()) {
 			Customer cust = getCustomer(email);
 			if (cust == null) {
@@ -159,11 +158,6 @@ public class JMoSS {
 
 	public void confirmBooking(Ticket ticket) {
 		dataReadWrite.saveTicket(ticket);
-	}
-
-	public boolean addBookings () {
-		// INCOMPLETE
-		return false;
 	}
 	
 	public boolean removeBooking (String idT, String idS ) { //asks for ticket id which needs to be removed and Screening id

@@ -28,7 +28,7 @@ public class Ticket {
 		return customer;
 	}
 
-	private void setCustomer(Customer customer) {
+	public void setCustomer(Customer customer) {
 		this.customer = customer;
 	}
 
@@ -47,6 +47,7 @@ public class Ticket {
 	private void setSeat(Seat seat) {
 		this.seat = seat;
 	}
+
 	
 	// Public methods
 	@Override

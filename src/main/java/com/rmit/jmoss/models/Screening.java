@@ -161,10 +161,10 @@ public class Screening {
 		return false;
 	}
 
-	public Seat geatSeatByNumber(String seatNumber) {
+	public Seat getSeatByNumber(String seatNumber) {
 		Seat seatResp = null;
 		for(Seat seat : this.seats){
-			if(!seat.getNumber().equals(seatNumber)) {
+			if(seat.getNumber().equals(seatNumber)) {
 				seatResp = seat;
 				break;
 			}

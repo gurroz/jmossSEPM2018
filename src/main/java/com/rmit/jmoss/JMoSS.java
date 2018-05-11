@@ -4,6 +4,8 @@ import com.rmit.jmoss.models.Cinema;
 import com.rmit.jmoss.models.Clerk;
 import com.rmit.jmoss.models.Customer;
 import com.rmit.jmoss.models.Screening;
+import com.rmit.jmoss.models.Seat;
+import com.rmit.jmoss.models.Ticket;
 import com.rmit.jmoss.util.DataReadWrite;
 
 import java.util.ArrayList;
@@ -125,8 +127,22 @@ public class JMoSS {
 		return screen;
 	}
 	
-	public boolean addBooking () {
-		// INCOMPLETE
+	public boolean addBooking (Customer bookCust, Screening event, Seat bookSeat) {
+		if (!bookSeat.isTaken()) {
+			
+			
+			
+			
+			
+			String id = null; //ticket id
+			Ticket ticket = new Ticket(id , bookCust, event, bookSeat);
+			event.addBooking(ticket);
+			dataReadWrite.saveTicket(ticket);
+			System.out.println(ticket.getScreening().getCinemaName() + ticket.getScreening().getDay() + ticket.getScreening().getFilmName() 
+					+ ticket.getScreening().getTime() + ticket.getSeat()); // prints the details of the booking
+			return true;
+		}
+		
 		return false;
 	}
 	
@@ -135,8 +151,13 @@ public class JMoSS {
 		return false;
 	}
 	
-	public boolean removeBooking () {
-		// INCOMPLETE
+	public boolean removeBooking (Customer bookCust, Screening event, Seat bookSeat) {
+		String id = null; //ticket id
+		Ticket ticket = new Ticket(id, bookCust, event, bookSeat);
+		if (event.getTickets().contains(ticket)) {
+			event.removeBooking(ticket);
+			dataReadWrite.removeTicket(ticket);
+		}
 		return false;
 	}
 }

@@ -3,7 +3,9 @@ package com.rmit.jmoss;
 import com.rmit.jmoss.exceptions.CredentialsTooShortException;
 import com.rmit.jmoss.exceptions.FilmNameTooShortException;
 import com.rmit.jmoss.models.Clerk;
+import com.rmit.jmoss.models.Customer;
 import com.rmit.jmoss.models.Screening;
+import com.rmit.jmoss.models.Seat;
 import com.rmit.jmoss.util.DataReadWrite;
 
 import java.util.Collection;
@@ -48,6 +50,15 @@ public class JMossService {
         } else {
             return false;
         }
+    }
+    
+    public boolean book (Customer bookCust, Screening event, Seat bookSeat) {
+    	return jMoss.addBooking(bookCust, event, bookSeat);
+    
+    }
+    
+    public boolean deleteBooking (Customer bookCust, Screening event, Seat bookSeat) {
+    	return jMoss.removeBooking(bookCust, event, bookSeat);
     }
 
     public Screening getScreenById(String id) throws FilmNameTooShortException {

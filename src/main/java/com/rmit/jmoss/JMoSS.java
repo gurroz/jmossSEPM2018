@@ -142,27 +142,22 @@ public class JMoSS {
 		
 	}
 		
-	public boolean addBooking (String screenID, String email, String suburb, String seatNum) throws NotEnoughInformationException {
-	
-		if (!getScreening(screenID).geatSeatByNumber(seatNum).isTaken()) {
-			
-			String id = null; //ticket id
-			if (getCustomer(email) != null) {
-			Ticket ticket = new Ticket(id, getCustomer(email), getScreening(screenID), getScreening(screenID).geatSeatByNumber(seatNum));
-			getScreening(screenID).addBooking(ticket);
+	public Ticket addBooking(Screening screening, String email, String suburb, String seatNum) {
+		Seat seat = screening.geatSeatByNumber(seatNum);
+		if (seat != null && !seat.isTaken()) {
+			Customer cust = getCustomer(email);
+			if (cust == null) {
+				cust = new Customer(null, email, suburb);
+			}
+
+			Ticket ticket = new Ticket(null, cust, screening, seat);
+			screening.addBooking(ticket);
 			dataReadWrite.saveTicket(ticket);
-			System.out.println(ticket.getScreening().getCinemaName() + ticket.getScreening().getDay() + ticket.getScreening().getFilmName() 
-					+ ticket.getScreening().getTime() + ticket.getSeat()); // prints the details of the booking
-			return true;
-		} else {
-			Customer cust = new Customer(null, email, suburb);
-			Ticket ticket = new Ticket(id, cust, getScreening(screenID), getScreening(screenID).geatSeatByNumber(seatNum));
-			dataReadWrite.saveTicket(ticket);
-			return true;
+			return ticket;
 		}
-		
-	} return false;
+		return null;
 	}
+
 	public boolean addBookings () {
 		// INCOMPLETE
 		return false;

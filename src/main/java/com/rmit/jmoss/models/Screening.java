@@ -165,7 +165,8 @@ public class Screening {
 		Seat seatResp = null;
 		for(Seat seat : this.seats){
 			if(!seat.getNumber().equals(seatNumber)) {
-				return seatResp;
+				seatResp = seat;
+				break;
 			}
 		}
 		return seatResp;

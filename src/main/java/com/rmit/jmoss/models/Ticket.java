@@ -1,9 +1,5 @@
 package com.rmit.jmoss.models;
 
-import com.rmit.jmoss.models.Customer;
-import com.rmit.jmoss.models.Screening;
-import com.rmit.jmoss.models.Seat;
-
 public class Ticket {
 
 	private String id;
@@ -57,5 +53,19 @@ public class Ticket {
 	public String toString () {
 		// INCOMPLETE
 		return null;
+	}
+
+	public String printDetails() {
+		StringBuilder builder = new StringBuilder();
+		builder.append("Cinema: ");
+		builder.append(this.getScreening().getCinemaName());
+		builder.append(" || Film: ");
+		builder.append(this.getScreening().getFilmName());
+		builder.append(" || Time: ");
+		builder.append(this.getScreening().getTime());
+		builder.append(" || Seat: ");
+		builder.append(this.getSeat().getNumber());
+
+		return builder.toString();
 	}
 }

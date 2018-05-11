@@ -386,7 +386,7 @@ public class DataReadWrite {
 				String line = String.format("%s|%s|%s|%s\n", t.getId(), t.getScreening().getId(),
 						t.getCustomer().getId(), t.getSeat().getNumber());
 				strings.add(line);
-				System.err.print(line);
+//				System.err.print(line);
 				
 				// Find smallest new id
 				if (newID < Integer.parseInt(t.getId())){
@@ -400,7 +400,7 @@ public class DataReadWrite {
 		String line = String.format("%s|%s|%s|%s\n", id, ticket.getScreening().getId(),
 				ticket.getCustomer().getId(), ticket.getSeat().getNumber());
 		strings.add(line);
-		System.err.print(line);				
+//		System.err.print(line);
 		
 		// Set up writer
 		try {

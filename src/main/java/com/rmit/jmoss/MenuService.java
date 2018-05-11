@@ -4,6 +4,7 @@ import com.rmit.jmoss.exceptions.CredentialsTooShortException;
 import com.rmit.jmoss.exceptions.FilmNameTooShortException;
 import com.rmit.jmoss.exceptions.NotEnoughInformationException;
 import com.rmit.jmoss.models.Screening;
+import com.rmit.jmoss.models.Ticket;
 import com.rmit.jmoss.util.DataReadWrite;
 import com.rmit.jmoss.util.TableAscii;
 
@@ -169,7 +170,7 @@ public class MenuService {
             	System.out.println("* Enter seat number you want to book ");
                 String seat = scanner.next();
                 makeBooking(screening, seat);
-            }else {
+            } else {
             	System.out.println("* Enter the id of the movie to show the detail: ");
                 String movieId = scanner.next();
                 showMovieDetail(movieId);
@@ -186,8 +187,14 @@ public class MenuService {
     		String email = scanner.next();
     		System.out.println("* Enter your suburb:");
     		String suburb = scanner.next();
-    		
-    		jMossService.book(screening.getId(),email, suburb, seat);
+
+            Ticket ticket = jMossService.book(screening.getId(), email, suburb, seat);
+            if(ticket != null) {
+                System.out.println("Ticket booked correctly -> " + ticket.printDetails());
+            } else {
+                System.out.println("Could not book the desire seat. Please try again with a different one.");
+                showMovieDetail(screening.getId());
+            }
     	}catch(Exception e) {
     		e.printStackTrace();
     	} catch (NotEnoughInformationException e) {

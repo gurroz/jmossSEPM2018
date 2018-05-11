@@ -89,9 +89,9 @@ public class Screening {
 		this.seats.add(seat);
 	}
 	
-	public void viewSeats () {
+	public boolean viewSeats () {
 		// WORKING
-    	if(seatsFull(seats)) {return;}
+    	if(seatsFull(seats)) {return false;}
 		List<String> sr1 = new ArrayList<String>();
         List<String> sr2 = new ArrayList<String>();
         List<String> sr3 = new ArrayList<String>();
@@ -127,7 +127,7 @@ public class Screening {
 
 		TableAscii table = new TableAscii(headers,sl);
 		table.printTable();
-		return;
+		return true;
 
 	}
 	

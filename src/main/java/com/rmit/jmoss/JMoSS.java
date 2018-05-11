@@ -115,6 +115,7 @@ public class JMoSS {
 		return null;
 	}
 	
+
 	public Screening getScreening(String id) {
 		Screening screen = null;
 		for(Screening screening : this.getScreenings()) {

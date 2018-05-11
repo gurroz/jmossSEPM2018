@@ -84,6 +84,16 @@ public class Screening {
 		return tickets;
 	}
 	
+	public Ticket getTicket(String idT) {
+		Ticket ticket = null;
+		for(Ticket ticketS : this.getTickets()) {
+			if (ticketS.getId().equals(idT)) {
+				ticket = ticketS;
+			}
+		}
+		return ticket;
+	}
+	
 	// Public methods
 	public void addSeat (Seat seat) {
 		this.seats.add(seat);

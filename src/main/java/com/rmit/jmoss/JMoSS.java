@@ -127,22 +127,25 @@ public class JMoSS {
 		return screen;
 	}
 	
-	public boolean addBooking (Customer bookCust, Screening event, Seat bookSeat) {
-		if (!bookSeat.isTaken()) {
-			
-			
-			
-			
-			
-			String id = null; //ticket id
-			Ticket ticket = new Ticket(id , bookCust, event, bookSeat);
-			event.addBooking(ticket);
-			dataReadWrite.saveTicket(ticket);
-			System.out.println(ticket.getScreening().getCinemaName() + ticket.getScreening().getDay() + ticket.getScreening().getFilmName() 
-					+ ticket.getScreening().getTime() + ticket.getSeat()); // prints the details of the booking
-			return true;
-		}
-		
+	public boolean addBooking (String bookCust, String event, String bookSeat) {
+
+
+
+//		if (!bookSeat.isTaken()) {
+//
+//
+//
+//
+//
+//			String id = null; //ticket id
+//			Ticket ticket = new Ticket(id , bookCust, event, bookSeat);
+//			event.addBooking(ticket);
+//			dataReadWrite.saveTicket(ticket);
+//			System.out.println(ticket.getScreening().getCinemaName() + ticket.getScreening().getDay() + ticket.getScreening().getFilmName()
+//					+ ticket.getScreening().getTime() + ticket.getSeat()); // prints the details of the booking
+//			return true;
+//		}
+//
 		return false;
 	}
 	

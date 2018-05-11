@@ -2,6 +2,7 @@ package com.rmit.jmoss;
 
 import com.rmit.jmoss.exceptions.CredentialsTooShortException;
 import com.rmit.jmoss.exceptions.FilmNameTooShortException;
+import com.rmit.jmoss.exceptions.NotEnoughInformationException;
 import com.rmit.jmoss.models.Clerk;
 import com.rmit.jmoss.models.Customer;
 import com.rmit.jmoss.models.Screening;
@@ -52,7 +53,11 @@ public class JMossService {
         }
     }
     
-    public boolean book (Customer bookCust, Screening event, Seat bookSeat) {
+    public boolean book(String bookCust, String event, String bookSeat) throws NotEnoughInformationException {
+        if(bookCust == null || event == null || bookSeat == null) {
+            throw new NotEnoughInformationException();
+        }
+
     	return jMoss.addBooking(bookCust, event, bookSeat);
     
     }

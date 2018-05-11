@@ -4,7 +4,7 @@
 # 
 # Note: Lines starting with # are comments and should be ignored.
 # 
-0101|I Feel Pretty|St Kilda|Monday|22:30|description..|1A1|1A2|1A3|1A4|1A5|1B1|1B2|1B3|1B4|1B5|1C1|1C2|1C3|1C4|1C5|1D1|1D2|1D3|1D4|1D5|
+0101|I Feel Pretty|St Kilda|Monday|22:30|description..|1A1|0A2|0A3|0A4|0A5|0B1|0B2|0B3|0B4|0B5|0C1|0C2|0C3|0C4|0C5|0D1|0D2|0D3|0D4|0D5|
 0102|A Quiet Place|St Kilda|Monday|20:30|description..|0A1|0A2|0A3|0A4|0A5|0B1|0B2|0B3|0B4|0B5|0C1|0C2|0C3|0C4|0C5|0D1|0D2|0D3|0D4|0D5|
 0103|Avengers: Infinity War|St Kilda|Monday|14:30|description..|0A1|0A2|0A3|0A4|0A5|0B1|0B2|0B3|0B4|0B5|0C1|0C2|0C3|0C4|0C5|0D1|0D2|0D3|0D4|0D5|
 0104|Peter Rabbit|St Kilda|Monday|20:30|description..|0A1|0A2|0A3|0A4|0A5|0B1|0B2|0B3|0B4|0B5|0C1|0C2|0C3|0C4|0C5|0D1|0D2|0D3|0D4|0D5|

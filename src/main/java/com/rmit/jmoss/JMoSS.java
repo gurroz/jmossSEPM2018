@@ -126,18 +126,33 @@ public class JMoSS {
 
 		return screen;
 	}
+
+	public boolean getCustomer(String email) {
+		Customer customer = null;
+		for(Customer customerS : this.getCustomers()) {
+			if(customerS.getEmail().equals(email))
+				customer = customerS;
+			
+		}
+		return true;
+		
+		
+	}
 	
-	public boolean addBooking (String bookCust, String event, String bookSeat) {
-
-
-
-//		if (!bookSeat.isTaken()) {
+	public boolean addBooking (String screenID, String email, String seatNum) {
+	
+		 
+		
+		
+//
+//		if (getScreening(screenID).getSeats().contains(seatNum) && getScreening(screenID).getSeats()) {
 //
 //
 //
 //
 //
 //			String id = null; //ticket id
+//			if (getCustomer(email).))
 //			Ticket ticket = new Ticket(id , bookCust, event, bookSeat);
 //			event.addBooking(ticket);
 //			dataReadWrite.saveTicket(ticket);
@@ -145,7 +160,7 @@ public class JMoSS {
 //					+ ticket.getScreening().getTime() + ticket.getSeat()); // prints the details of the booking
 //			return true;
 //		}
-//
+		
 		return false;
 	}
 	

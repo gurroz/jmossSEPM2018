@@ -2,6 +2,7 @@ package com.rmit.jmoss;
 
 import com.rmit.jmoss.exceptions.CredentialsTooShortException;
 import com.rmit.jmoss.exceptions.FilmNameTooShortException;
+import com.rmit.jmoss.exceptions.NotEnoughInformationException;
 import com.rmit.jmoss.models.Screening;
 import com.rmit.jmoss.util.DataReadWrite;
 import com.rmit.jmoss.util.TableAscii;
@@ -186,9 +187,15 @@ public class MenuService {
     		String email = scanner.next();
     		System.out.println("* Enter your suburb:");
     		String suburb = scanner.next();
-    	}catch(Exception e) {
     		
-    	}
+    		jMossService.book(email, suburb, seat);
+    	}catch(Exception e) {
+    		e.printStackTrace();
+    	} catch (NotEnoughInformationException e) {
+			e.printStackTrace();
+		}
+    	
+    	
 	}
 
 	private void logout() {

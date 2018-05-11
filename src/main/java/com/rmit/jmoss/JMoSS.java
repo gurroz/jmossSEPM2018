@@ -152,10 +152,13 @@ public class JMoSS {
 
 			Ticket ticket = new Ticket(null, cust, screening, seat);
 			screening.addBooking(ticket);
-			dataReadWrite.saveTicket(ticket);
 			return ticket;
 		}
 		return null;
+	}
+
+	public void confirmBooking(Ticket ticket) {
+		dataReadWrite.saveTicket(ticket);
 	}
 
 	public boolean addBookings () {

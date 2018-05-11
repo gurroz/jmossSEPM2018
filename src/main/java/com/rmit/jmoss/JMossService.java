@@ -63,6 +63,15 @@ public class JMossService {
 
         return jMoss.addBooking(screening, email, suburb, seatNum);
     }
+
+    public void confirmBooking(Ticket ticket) throws NotEnoughInformationException {
+        if (ticket == null) {
+            throw new NotEnoughInformationException();
+        }
+
+        jMoss.confirmBooking(ticket);
+    }
+
     
     public boolean deleteBooking (String idT, String idS) { //asks for ticket id and screening id
     	if (idT != null && idS != null) {

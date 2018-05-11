@@ -73,48 +73,41 @@ public class MenuService {
         System.out.println("1. Display all Cineplex");
         System.out.println("2. Cineplex Search");
         System.out.println("3. Movie Search");
-        System.out.println("4. Log Out");
-        System.out.println("5. Book a movie sesion");
-        System.out.println("6. Delete booking");
+        System.out.println("4. Search by Ticket");
+        System.out.println("5. Log Out");
         System.out.println("0. Exit");
 
-        int option = scanner.nextInt();
+        try {
+            int option = scanner.nextInt();
 
-        switch (option) {
-            case 1:
-                break;
-            case 2:
-                break;
-            case 3:
-                showMovieSearch();
-                break;
-            case 4:
-                logout();
-                break;
-            case 5:
-            	book();
-            	break;
-            case 6:
-            	deletebook();
-            case 0:
-                exit();
-                break;
-            default:
-                System.err.println("Enter a valid option");
-                showMainMenu();
-                break;
+            switch (option) {
+                case 1:
+                    break;
+                case 2:
+                    break;
+                case 3:
+                    showMovieSearch();
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    logout();
+                    break;
+                case 0:
+                    exit();
+                    break;
+                default:
+                    System.err.println("** Enter a valid option");
+                    scanner.nextLine();
+                    showMainMenu();
+                    break;
+            }
+        } catch (Exception e) {
+            System.err.println("** Enter a valid option");
+            scanner.nextLine();
+            showMainMenu();
         }
     }
-
-    private void deletebook() {
-		// TODO 
-		
-	}
-
-	private void book() {
-		// TODO 
-		
-	}
 
 	private void showMovieSearch() {
         System.out.println("");
@@ -189,13 +182,35 @@ public class MenuService {
     		String suburb = scanner.next();
 
             Ticket ticket = jMossService.book(screening.getId(), email, suburb, seat);
-            if(ticket != null) {
-                System.out.println("Ticket booked correctly -> " + ticket.printDetails());
-            } else {
+
+            if(ticket == null) {
                 System.out.println("Could not book the desire seat. Please try again with a different one.");
                 showMovieDetail(screening.getId());
+                return;
             }
-    	}catch(Exception e) {
+
+            System.out.println("Continue with the following ticket booking?");
+            System.out.println(ticket.printDetails());
+            System.out.println("0. No");
+            System.out.println("1. Yes");
+
+            try {
+                int option = scanner.nextInt();
+
+                if(option == 1) {
+                    jMossService.confirmBooking(ticket);
+                    System.out.println("Ticket booked correctly -> " + ticket.printDetails());
+                } else {
+                    showMovieDetail(screening.getId());
+                    return;
+                }
+            }  catch (Exception e) {
+                System.err.println("** Enter a valid option");
+                scanner.nextLine();
+                makeBooking(screening, seat);
+            }
+
+    	} catch(Exception e) {
     		e.printStackTrace();
     	} catch (NotEnoughInformationException e) {
 			e.printStackTrace();

@@ -43,9 +43,12 @@ public class SavesTest {
 			}
 		}
 		assertNotNull(loadTicket); 
+		
+		Seat loadSeat = loadTicket.getSeat();
+		assertTrue(loadSeat.isTaken());
 	}	
 
-	@Test
+/*	@Test
 	public void testSaveTicketWithExistingCustomer() {
 
 		DataReadWrite readWrite = new DataReadWrite();
@@ -76,5 +79,5 @@ public class SavesTest {
 			}
 		}
 		assertNotNull(loadTicket); 
-	}	
+	}	*/
 }

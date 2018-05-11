@@ -420,6 +420,88 @@ public class DataReadWrite {
 			return false;
 		}
 		
+		// SAVING SEAT
+		// Set up the reader
+		try {
+			setReader(new BufferedReader(new FileReader("data/screenings.txt")));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// Read in documentation lines
+		strings = new ArrayList<String>();
+		try {
+			line = reader.readLine();
+			while (line != null) {
+				
+				// If line starts with '#', store line
+				if (line.startsWith("#")) {
+					strings.add(line + "\n");
+				}
+				
+				line = reader.readLine();
+			}
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}	
+		
+		// Load all screenings (and thus, seats)
+		ArrayList<Screening> screenings = (ArrayList<Screening>) loadScreenings();
+		
+		// Go through all existing screenings
+		exists = false;
+		newID = 0;
+		for (Screening sc : screenings) {
+			
+			// Add to save list
+			line = String.format("%s|%s|%s|%s", sc.getId(), sc.getFilmName(),
+					sc.getCinemaName(), sc.getDay(), sc.getTime(), sc.getDescription());
+			
+			for (Seat s : sc.getSeats()) {
+				
+				// If the seat is being booked, set it to be so
+				if ((sc.getId().equals(ticket.getScreening().getId()) && 
+						(s.getNumber().equals(ticket.getSeat().getNumber())))){
+					System.out.println("booking...");
+					s.book();
+				}
+				
+				System.out.println(s.isTaken());
+				
+				// Add all seats to the line
+				int takenInt = 0;
+				if (s.isTaken())
+					takenInt = 1;
+				line = line.concat(String.format("|%d%s", takenInt, s.getNumber()));
+			}
+			line = line.concat("\n");
+			strings.add(line);
+		}
+				
+		// Set up writer
+		try {
+			setWriter(new FileWriter("data/screenings.txt"));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// Print ticket strings to doc
+		try {
+			for (String s : strings) {
+				writer.append(s);
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 		return true;
 	}
 	

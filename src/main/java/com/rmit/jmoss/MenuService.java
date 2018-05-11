@@ -177,9 +177,8 @@ public class MenuService {
         } catch (FilmNameTooShortException e) {
             e.printStackTrace();
         }
-
     }
-
+    
     private void makeBooking(Screening screening, String seat) {
 		
     	try {
@@ -188,7 +187,7 @@ public class MenuService {
     		System.out.println("* Enter your suburb:");
     		String suburb = scanner.next();
     		
-    		jMossService.book(email, suburb, seat);
+    		jMossService.book(screening.getId(),email, suburb, seat);
     	}catch(Exception e) {
     		e.printStackTrace();
     	} catch (NotEnoughInformationException e) {

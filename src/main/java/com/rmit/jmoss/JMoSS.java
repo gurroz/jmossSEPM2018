@@ -1,5 +1,6 @@
 package com.rmit.jmoss;
 
+import com.rmit.jmoss.exceptions.NotEnoughInformationException;
 import com.rmit.jmoss.models.Cinema;
 import com.rmit.jmoss.models.Clerk;
 import com.rmit.jmoss.models.Customer;
@@ -22,6 +23,7 @@ public class JMoSS {
 	private Collection<Screening> screenings;
 	private Collection<Customer> customers;
 	private Collection<Clerk> clerks;
+	
 	
 	// Constructor
 	public JMoSS(DataReadWrite dataReadWrite) {
@@ -134,56 +136,52 @@ public class JMoSS {
 
 		return screen;
 	}
-
-	public boolean getCustomer(String email) {
+	
+	public Customer getCustomer(String email) {
 		Customer customer = null;
 		for(Customer customerS : this.getCustomers()) {
 			if(customerS.getEmail().equals(email))
 				customer = customerS;
 			
 		}
-		return true;
+		return customer;
 		
 		
 	}
+		
+	public boolean addBooking (String screenID, String email, String suburb, String seatNum) throws NotEnoughInformationException {
 	
-	public boolean addBooking (String screenID, String email, String seatNum) {
-	
-		 
+		if (!getScreening(screenID).geatSeatByNumber(seatNum).isTaken()) {
+			
+			String id = null; //ticket id
+			if (getCustomer(email) != null) {
+			Ticket ticket = new Ticket(id, getCustomer(email), getScreening(screenID), getScreening(screenID).geatSeatByNumber(seatNum));
+			getScreening(screenID).addBooking(ticket);
+			dataReadWrite.saveTicket(ticket);
+			System.out.println(ticket.getScreening().getCinemaName() + ticket.getScreening().getDay() + ticket.getScreening().getFilmName() 
+					+ ticket.getScreening().getTime() + ticket.getSeat()); // prints the details of the booking
+			return true;
+		} else {
+			Customer cust = new Customer(null, email, suburb);
+			Ticket ticket = new Ticket(id, cust, getScreening(screenID), getScreening(screenID).geatSeatByNumber(seatNum));
+			dataReadWrite.saveTicket(ticket);
+			return true;
+		}
 		
-		
-//
-//		if (getScreening(screenID).getSeats().contains(seatNum) && getScreening(screenID).getSeats()) {
-//
-//
-//
-//
-//
-//			String id = null; //ticket id
-//			if (getCustomer(email).))
-//			Ticket ticket = new Ticket(id , bookCust, event, bookSeat);
-//			event.addBooking(ticket);
-//			dataReadWrite.saveTicket(ticket);
-//			System.out.println(ticket.getScreening().getCinemaName() + ticket.getScreening().getDay() + ticket.getScreening().getFilmName()
-//					+ ticket.getScreening().getTime() + ticket.getSeat()); // prints the details of the booking
-//			return true;
-//		}
-		
-		return false;
+	} return false;
 	}
-	
 	public boolean addBookings () {
 		// INCOMPLETE
 		return false;
 	}
 	
-	public boolean removeBooking (Customer bookCust, Screening event, Seat bookSeat) {
-		String id = null; //ticket id
-		Ticket ticket = new Ticket(id, bookCust, event, bookSeat);
-		if (event.getTickets().contains(ticket)) {
-			event.removeBooking(ticket);
-			dataReadWrite.removeTicket(ticket);
+	public boolean removeBooking (String idT, String idS ) { //asks for ticket id which needs to be removed and Screening id
+		if(getScreening(idS).getTicket(idT) != null) {
+			dataReadWrite.removeTicket(getScreening(idS).getTicket(idT));
+			return true;
+		} else {
+			return false;
 		}
-		return false;
+		
 	}
 }

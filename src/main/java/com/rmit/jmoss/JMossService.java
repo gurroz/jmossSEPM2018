@@ -57,17 +57,21 @@ public class JMossService {
         }
     }
     
-    public boolean book(String bookCust, String event, String bookSeat) throws NotEnoughInformationException {
-        if(bookCust == null || event == null || bookSeat == null) {
-            throw new NotEnoughInformationException();
-        }
 
-    	return jMoss.addBooking(bookCust, event, bookSeat);
-    
+    public boolean book (String screenID, String email, String suburb, String seatNum) throws NotEnoughInformationException {
+    	if (screenID != null && email != null && suburb != null && seatNum !=null) {
+    	return jMoss.addBooking(screenID, email, suburb, seatNum);
+    	} else {
+    		return false;
+    	}
     }
     
-    public boolean deleteBooking (Customer bookCust, Screening event, Seat bookSeat) {
-    	return jMoss.removeBooking(bookCust, event, bookSeat);
+    public boolean deleteBooking (String idT, String idS) { //asks for ticket id and screening id
+    	if (idT != null && idS != null) {
+    	return jMoss.removeBooking(idT, idS);
+    	} else {
+    		return false;
+    	}
     }
 
     public Screening getScreenById(String id) throws FilmNameTooShortException {

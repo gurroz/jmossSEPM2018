@@ -458,7 +458,7 @@ public class DataReadWrite {
 		for (Screening sc : screenings) {
 			
 			// Add to save list
-			line = String.format("%s|%s|%s|%s", sc.getId(), sc.getFilmName(),
+			line = String.format("%s|%s|%s|%s|%s|%s", sc.getId(), sc.getFilmName(),
 					sc.getCinemaName(), sc.getDay(), sc.getTime(), sc.getDescription());
 			
 			for (Seat s : sc.getSeats()) {
@@ -466,11 +466,8 @@ public class DataReadWrite {
 				// If the seat is being booked, set it to be so
 				if ((sc.getId().equals(ticket.getScreening().getId()) && 
 						(s.getNumber().equals(ticket.getSeat().getNumber())))){
-					System.out.println("booking...");
 					s.book();
 				}
-				
-				System.out.println(s.isTaken());
 				
 				// Add all seats to the line
 				int takenInt = 0;

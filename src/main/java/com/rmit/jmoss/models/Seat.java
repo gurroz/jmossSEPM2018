@@ -40,12 +40,12 @@ public class Seat {
 	
 	// Public methods
 	public boolean book () {
-		// INCOMPLETE
+		this.taken = true;
 		return false;
 	}
 	
 	public boolean unbook () {
-		// INCOMPLETE
+		this.taken = false;
 		return false;
 	}
 }

@@ -4,6 +4,7 @@ import com.rmit.jmoss.exceptions.CredentialsTooShortException;
 import com.rmit.jmoss.exceptions.FilmNameTooShortException;
 import com.rmit.jmoss.exceptions.NotEnoughInformationException;
 import com.rmit.jmoss.models.Screening;
+import com.rmit.jmoss.models.Ticket;
 import com.rmit.jmoss.util.DataReadWrite;
 import com.rmit.jmoss.util.TableAscii;
 
@@ -72,49 +73,43 @@ public class MenuService {
         System.out.println("1. Display all Cineplex");
         System.out.println("2. Cineplex Search");
         System.out.println("3. Movie Search");
-        System.out.println("4. Log Out");
-        System.out.println("5. Book a movie sesion");
-        System.out.println("6. Delete booking");
+        System.out.println("4. Search by Ticket");
+        System.out.println("5. Log Out");
         System.out.println("0. Exit");
 
-        int option = scanner.nextInt();
+        try {
+            int option = scanner.nextInt();
 
-        switch (option) {
-            case 1:
-                break;
-            case 2:
-                showCineplexSearch();
-                break;
-            case 3:
-                showMovieSearch();
-                break;
-            case 4:
-                logout();
-                break;
-            case 5:
-            	book();
-            	break;
-            case 6:
-            	deletebook();
-            case 0:
-                exit();
-                break;
-            default:
-                System.err.println("Enter a valid option");
-                showMainMenu();
-                break;
+
+            switch (option) {
+                case 1:
+                    break;
+                case 2:
+                	showCineplexSearch();
+                    break;
+                case 3:
+                    showMovieSearch();
+                    break;
+                case 4:
+                    break;
+                case 5:
+                    logout();
+                    break;
+                case 0:
+                    exit();
+                    break;
+                default:
+                    System.err.println("** Enter a valid option");
+                    scanner.nextLine();
+                    showMainMenu();
+                    break;
+            }
+        } catch (Exception e) {
+            System.err.println("** Enter a valid option");
+            scanner.nextLine();
+            showMainMenu();
         }
     }
-
-    private void deletebook() {
-		// TODO 
-		
-	}
-
-	private void book() {
-		// TODO 
-		
-	}
 
 	private void showMovieSearch() {
         System.out.println("");
@@ -208,13 +203,13 @@ public class MenuService {
     private void showMovieDetail(String id) {
         try {
             Screening screening = jMossService.getScreenById(id);
-            System.out.printf("id: %s || name: %s || cinema: %S || day: %s || time: %s", screening.getId(),screening.getFilmName(), screening.getCinemaName(), screening.getDay(),screening.getTime());
+            System.out.printf("Id: %s || Name: %s || Cinema: %S || Day: %s || Time: %s", screening.getId(),screening.getFilmName(), screening.getCinemaName(), screening.getDay(),screening.getTime());
             System.out.printf("\nDescription: ", screening.getDescription());
             if(screening.viewSeats()) {
-            	System.out.println("* Enter seat number you want to book ");
-                String seat = scanner.next();
-                makeBooking(screening, seat);
-            }else {
+            	System.out.println("* Enter the seats number you want to book, separated by comas");
+                String seats = scanner.next();
+                makeBooking(screening, seats);
+            } else {
             	System.out.println("* Enter the id of the movie to show the detail: ");
                 String movieId = scanner.next();
                 showMovieDetail(movieId);
@@ -225,16 +220,57 @@ public class MenuService {
     }
 
     
-    private void makeBooking(Screening screening, String seat) {
-		
+    private void makeBooking(Screening screening, String seats) {
     	try {
     		System.out.println("* Enter your email:");
     		String email = scanner.next();
     		System.out.println("* Enter your suburb:");
     		String suburb = scanner.next();
-    		
-    		jMossService.book(screening.getId(),email, suburb, seat);
-    	}catch(Exception e) {
+
+            String[] seatNumbers = seats.split(",");
+
+            List<Ticket> tickets = new ArrayList<Ticket>();
+            for(int i = 0; i < seatNumbers.length ; i++) {
+                Ticket ticket = jMossService.book(screening.getId(), email, suburb, seatNumbers[i]);
+                if(ticket == null) {
+                    System.out.println("Could not book the desire seat " + seatNumbers[i] + ". Please try again with a different one.");
+                    System.out.println("");
+
+                    showMovieDetail(screening.getId());
+                    return;
+                }
+                tickets.add(ticket);
+            }
+
+            System.out.println("Continue with the following tickets booking?");
+            for(Ticket ticket : tickets) {
+                System.out.println(ticket.printDetails());
+            }
+
+            System.out.println("0. No");
+            System.out.println("1. Yes");
+
+            try {
+                int option = scanner.nextInt();
+
+                if(option == 1) {
+                    for(Ticket ticket : tickets) {
+                        jMossService.confirmBooking(ticket);
+                    }
+
+                    System.out.println("Tickets booked correctly ");
+                } else {
+                    showMovieDetail(screening.getId());
+                    return;
+                }
+            }  catch (Exception e) {
+                System.err.println("** Enter a valid option");
+                e.printStackTrace();
+                scanner.nextLine();
+                makeBooking(screening, seats);
+            }
+
+    	} catch(Exception e) {
     		e.printStackTrace();
     	} catch (NotEnoughInformationException e) {
 			e.printStackTrace();

@@ -80,10 +80,12 @@ public class MenuService {
         try {
             int option = scanner.nextInt();
 
+
             switch (option) {
                 case 1:
                     break;
                 case 2:
+                	showCineplexSearch();
                     break;
                 case 3:
                     showMovieSearch();
@@ -153,6 +155,50 @@ public class MenuService {
         }
 
     }
+	private void showCineplexSearch() {
+        System.out.println("\n* Enter the cineplex you are looking for: ");
+        String cineplex = scanner.next();
+        try {
+            Collection<Screening> searchResults = jMossService.searchByCineplex(cineplex);
+            if(searchResults.isEmpty()) {
+				System.err.println("Cineplex Not Exist");
+				showCineplexSearch();
+			}
+            List<List<String>> movies = new ArrayList<List<String>>();
+
+            for(Screening screening : searchResults) {
+                List<String> movieData = new ArrayList<String>();
+
+                movieData.add(screening.getCinemaName());
+                movieData.add(screening.getId());
+                movieData.add(screening.getFilmName());
+                movieData.add(screening.getDay());
+                movieData.add(screening.getTime());
+                movies.add(movieData);
+            }
+
+            List<String> headers = new ArrayList<String>();
+
+            headers.add("CINEPLEX");
+            headers.add("ID");
+            headers.add("NAME");
+            headers.add("DAY");
+            headers.add("TIME");
+
+            TableAscii tableResults = new TableAscii(headers, movies);
+            tableResults.printTable();
+
+            System.out.println("");
+            System.out.println("* Enter the id of the movie to show the detail: ");
+
+            String movieId = scanner.next();
+            showMovieDetail(movieId);
+
+        } catch (Exception e) {
+            showCineplexSearch();
+        }
+
+    }
 
     private void showMovieDetail(String id) {
         try {
@@ -172,6 +218,7 @@ public class MenuService {
             e.printStackTrace();
         }
     }
+
     
     private void makeBooking(Screening screening, String seats) {
     	try {

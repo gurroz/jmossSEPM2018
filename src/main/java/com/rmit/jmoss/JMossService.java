@@ -36,7 +36,11 @@ public class JMossService {
 
         return this.jMoss.searchByFilm(filmName);
     }
-
+    
+    public Collection<Screening> searchByCineplex(String cineplex){
+    	
+    	return this.jMoss.searchByCinema(cineplex);
+    }
     public boolean logClerck(String user, String password) throws CredentialsTooShortException {
         if(user == null || password == null) {
             throw new CredentialsTooShortException();

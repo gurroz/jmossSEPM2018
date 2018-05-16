@@ -74,17 +74,6 @@ public class JMoSS {
 	private void setClerks(Collection<Clerk> clerks) {
 		this.clerks = clerks;
 	}
-
-	// Public methods
-	public boolean login () {
-		// INCOMPLETE
-		return false;
-	}
-	
-	public boolean logout () {
-		// INCOMPLETE
-		return false;
-	}
 	
 	public Collection<Screening> searchByCinema (String cineplex) {
 		List<Screening> screenings = new ArrayList<Screening>();
@@ -108,11 +97,6 @@ public class JMoSS {
 
 		return screenings;
 	}
-	
-	public boolean searchByCustomer () {
-		// INCOMPLETE
-		return false;
-	}
 
 	public Clerk searchClerk(String username, String password) {
 		for(Clerk clerks : this.getClerks()) {
@@ -120,10 +104,8 @@ public class JMoSS {
 				return clerks;
 			}
 		}
-
 		return null;
-	}
-	
+	}	
 
 	public Screening getScreening(String id) {
 		Screening screen = null;
@@ -133,20 +115,16 @@ public class JMoSS {
 				break;
 			}
 		}
-
 		return screen;
-	}
+	}	
 	
 	public Customer getCustomer(String email) {
 		Customer customer = null;
 		for(Customer customerS : this.getCustomers()) {
 			if(customerS.getEmail().equals(email))
-				customer = customerS;
-			
+				customer = customerS;			
 		}
-		return customer;
-		
-		
+		return customer;	
 	}
 		
 	public Ticket addBooking(Screening screening, String email, String suburb, String seatNum) {
@@ -158,7 +136,7 @@ public class JMoSS {
 			}
 
 			Ticket ticket = new Ticket(null, cust, screening, seat);
-			screening.addBooking(ticket);
+			cust.addTicket(ticket);
 			return ticket;
 		}
 		return null;
@@ -168,14 +146,15 @@ public class JMoSS {
 		dataReadWrite.saveTicket(ticket);
 	}
 	
-	public boolean removeBooking (String idT, String idS ) { //asks for ticket id which needs to be removed and Screening id
-		if(getScreening(idS).getTicket(idT) != null) {
-			dataReadWrite.removeTicket(getScreening(idS).getTicket(idT));
+	public boolean removeBooking (String ticketId) {
+		
+		// asks for ticket id which needs to be removed and Screening id
+		if(getTicket(ticketId) != null) {
+			dataReadWrite.removeTicket(getTicket(ticketId));
 			return true;
 		} else {
 			return false;
-		}
-		
+		}		
 	}
 	
 	public ArrayList<Ticket> getCustomerTickets(String email) { //asks for customer email and return all the tickets purchased
@@ -184,5 +163,18 @@ public class JMoSS {
 			customerTickets.add(t);
 		}
 		return customerTickets;
+	}
+	
+	public Ticket getTicket (String id) { 
+		
+		//asks for ticket id and return ticket
+		Ticket ticket = null;
+		for (Customer c : customers) {
+			for (Ticket t : c.getTickets()) {
+				if (t.getId().equals(id))
+					ticket = t;
+			}
+		}
+		return ticket;
 	}
 }

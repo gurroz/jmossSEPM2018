@@ -41,7 +41,7 @@ public class JMossService {
     	
     	return this.jMoss.searchByCinema(cineplex);
     }
-    public boolean logClerck(String user, String password) throws CredentialsTooShortException {
+    public boolean logClerk(String user, String password) throws CredentialsTooShortException {
         if(user == null || password == null) {
             throw new CredentialsTooShortException();
         }
@@ -77,9 +77,11 @@ public class JMossService {
     }
 
     
-    public boolean deleteBooking (String idT, String idS) { //asks for ticket id and screening id
-    	if (idT != null && idS != null) {
-    	return jMoss.removeBooking(idT, idS);
+    public boolean deleteBooking (String ticketId) { //asks for ticket id and screening id
+    	
+    	if (ticketId != null) {    		
+    		boolean deleted = jMoss.removeBooking(ticketId);	    	
+    		return deleted;
     	} else {
     		return false;
     	}
@@ -92,4 +94,20 @@ public class JMossService {
 
         return this.jMoss.getScreening(id);
     }
+
+	public Customer getCustomer(String email) throws CredentialsTooShortException {
+        if (email == null) {
+            throw new CredentialsTooShortException();
+        }
+        
+		return jMoss.getCustomer(email);
+	}
+
+	public Ticket getTicket(String id) throws CredentialsTooShortException {
+        if (id == null) {
+            throw new CredentialsTooShortException();
+        }
+        
+		return jMoss.getTicket(id);
+	}
 }

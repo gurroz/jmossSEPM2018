@@ -221,8 +221,7 @@ public class DataReadWrite {
 			e.printStackTrace();
 			return null;
 		}
-		
-		
+				
 		return customers;
 	}
 	

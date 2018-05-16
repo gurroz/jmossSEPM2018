@@ -14,7 +14,6 @@ public class Screening {
 	private String time;
 	private String description;
 	private ArrayList<Seat> seats = new ArrayList<Seat>();
-	private ArrayList<Ticket> tickets = new ArrayList<Ticket>();
 	
 	// Constructor
 	public Screening(String id, String filmName, String cinemaName, String day, 
@@ -79,20 +78,6 @@ public class Screening {
 	public ArrayList<Seat> getSeats() {
 		return seats;
 	}
-
-	public ArrayList<Ticket> getTickets() {
-		return tickets;
-	}
-	
-	public Ticket getTicket(String idT) {
-		Ticket ticket = null;
-		for(Ticket ticketS : this.getTickets()) {
-			if (ticketS.getId().equals(idT)) {
-				ticket = ticketS;
-			}
-		}
-		return ticket;
-	}
 	
 	// Public methods
 	public void addSeat (Seat seat) {
@@ -149,16 +134,6 @@ public class Screening {
 		}
 		System.err.println("SORRY - No seats available this session");
 		return true;
-	}
-	
-	public boolean addBooking (Ticket ticket) {
-		tickets.add(ticket);
-		return false;
-	}
-	
-	public boolean removeBooking (Ticket ticket) {
-		tickets.remove(ticket);
-		return false;
 	}
 
 	public Seat getSeatByNumber(String seatNumber) {

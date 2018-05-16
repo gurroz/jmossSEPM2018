@@ -3,6 +3,7 @@ package com.rmit.jmoss;
 import com.rmit.jmoss.exceptions.CredentialsTooShortException;
 import com.rmit.jmoss.exceptions.FilmNameTooShortException;
 import com.rmit.jmoss.exceptions.NotEnoughInformationException;
+import com.rmit.jmoss.models.Customer;
 import com.rmit.jmoss.models.Screening;
 import com.rmit.jmoss.models.Ticket;
 import com.rmit.jmoss.util.DataReadWrite;
@@ -59,7 +60,7 @@ public class MenuService {
         String pass = scanner.nextLine();
 
         try {
-            if(jMossService.logClerck(login, pass)) {
+            if(jMossService.logClerk(login, pass)) {
                 showMainMenu();
             } else {
                 System.out.println("Could not log in. Please check credentials.");
@@ -75,7 +76,7 @@ public class MenuService {
         System.out.println("1. Display all Cineplex");
         System.out.println("2. Cineplex Search");
         System.out.println("3. Movie Search");
-        System.out.println("4. Search by Ticket");
+        System.out.println("4. Customer Search");
         System.out.println("5. Log Out");
         System.out.println("0. Exit");
 
@@ -93,6 +94,7 @@ public class MenuService {
                     showMovieSearch();
                     break;
                 case 4:
+                	showCustomerSearch();
                     break;
                 case 5:
                     logout();
@@ -199,7 +201,6 @@ public class MenuService {
         } catch (Exception e) {
             showCineplexSearch();
         }
-
     }
 
     private void showMovieDetail(String id) {
@@ -221,11 +222,10 @@ public class MenuService {
         }
     }
 
-    
     private void makeBooking(Screening screening, String seats) {
     	try {
     		System.out.println("* Enter your email:");
-    		String email = scanner.next();
+    		String email = scanner.next();    		
     		System.out.println("* Enter your suburb:");
     		String suburb = scanner.next();
 
@@ -277,8 +277,117 @@ public class MenuService {
     	} catch (NotEnoughInformationException e) {
 			e.printStackTrace();
 		}
-    	
-    	
+	}
+    
+    private void showCustomerSearch () {
+    	System.out.println("\n* Enter customer email: ");
+        String email = scanner.next();
+        showCustomer(email);
+    }
+    
+    private void showCustomer (String email) {
+        try {
+        	Customer customer = jMossService.getCustomer(email);
+            System.out.printf("Id: %s || Email: %s || Suburb: %s\n", customer.getId(), customer.getEmail(), customer.getSuburb());
+            if(customer.getTickets().size() > 0) {
+            	System.out.println("Tickets:");
+            	for (Ticket ticket : customer.getTickets()) {
+            		System.out.printf("Id: %s || Film: %s || Cinema: %s || Seat: %s\n", ticket.getId(), ticket.getScreening().getFilmName(), 
+            				ticket.getScreening().getCinemaName(), ticket.getSeat().getNumber());
+            	}
+            	
+            	// Prompt selection of ticket
+            	System.out.println("* Enter id of ticket to select: ");
+                String ticketId = scanner.next();
+                showSelectTicket(ticketId);
+                
+            } else {
+            	System.out.println("** Customer has no tickets at this time.\n* Enter customer email: ");
+                String newEmail = scanner.next();
+                showCustomer(newEmail);
+            }
+        } 
+        catch (CredentialsTooShortException e) {
+			e.printStackTrace();
+		}
+    }
+
+	private void showSelectTicket(String ticketId) {
+		try {
+	    	Ticket ticket = jMossService.getTicket(ticketId);
+			System.out.printf("Id: %s || Film: %s || Cinema: %s || Seat: %s\n", ticket.getId(), ticket.getScreening().getFilmName(), 
+					ticket.getScreening().getCinemaName(), ticket.getSeat().getNumber());
+			        	
+        	// Prompt selection of operation
+	        System.out.println("* Enter operation");
+	        System.out.println("1. Remove Booking");
+	        System.out.println("2. Reschedule Booking");            
+            try {
+                int option = scanner.nextInt();
+
+                switch (option) {
+                    case 1:
+                    	showRemoveBooking(ticketId);
+                        break;
+                    case 2:
+                    	showRescheduleBooking(ticketId);
+                        break;
+                    default:
+                        System.err.println("** Enter a valid option");
+                        scanner.nextLine();
+                        showSelectTicket(ticketId);
+                        break;
+                }
+            } catch (Exception e) {
+                System.err.println("** Enter a valid option");
+                scanner.nextLine();
+                showSelectTicket(ticketId);
+            }
+	    } 
+	    catch (CredentialsTooShortException e) {
+			e.printStackTrace();
+		}
+	}
+
+	private void showRemoveBooking(String ticketId) {
+		try {
+	    	Ticket ticket = jMossService.getTicket(ticketId);
+			System.out.printf("Removing ticket with Id: %s\n", ticket.getId());
+			
+	    	boolean deleted = jMossService.deleteBooking(ticket.getId());	    	
+			if (deleted) {
+				System.out.println("** Successfully removed booking.");
+			}
+			else {
+				System.out.println("** Remove booking failed. Try again.");
+				showSelectTicket(ticketId);
+			}
+            
+        } 
+        catch (CredentialsTooShortException e) {
+			e.printStackTrace();
+		}
+		
+		showMainMenu();
+	}
+
+	private void showRescheduleBooking(String ticketId) {
+		try {
+	    	Ticket ticket = jMossService.getTicket(ticketId);
+			System.out.printf("Removing ticket with Id: %s", ticket.getId());
+			if (jMossService.deleteBooking(ticket.getId())) {
+				System.out.println("** Successfully removed booking.");
+			}
+			else {
+				System.out.println("**Remove booking failed. Try again.");
+				showSelectTicket(ticketId);
+			}
+        } 
+        catch (CredentialsTooShortException e) {
+			e.printStackTrace();
+		}
+		
+		showMovieSearch();
 	}
 
 	private void logout() {

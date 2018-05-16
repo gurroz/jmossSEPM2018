@@ -307,14 +307,15 @@ public class DataReadWrite {
 		for (Customer c : customers) {
 			
 			// Check if customer exists
-			if (c.getEmail().equals(customer.getEmail())) {
+			if (c.getEmail().toLowerCase().equals(customer.getEmail().toLowerCase())) {
 				exists = true;
+				ticket.setCustomer(c);
+				break;
 			}
-			
-			// Update id to next smallest number
-			if (newID < Integer.parseInt(c.getId())) {
+
+			// Find smallest new id
+			if (newID <= Integer.parseInt(c.getId()))
 				newID = Integer.parseInt(c.getId()) + 1;
-			}
 		}
 		
 		// If doesn't exist, generate new id and save customer
@@ -386,12 +387,10 @@ public class DataReadWrite {
 				String line = String.format("%s|%s|%s|%s\n", t.getId(), t.getScreening().getId(),
 						t.getCustomer().getId(), t.getSeat().getNumber());
 				strings.add(line);
-				System.err.print(line);
 				
 				// Find smallest new id
-				if (newID < Integer.parseInt(t.getId())){
+				if (newID <= Integer.parseInt(t.getId()))
 					newID = Integer.parseInt(t.getId()) + 1;
-				}
 			}
 		}
 		
@@ -400,7 +399,6 @@ public class DataReadWrite {
 		String line = String.format("%s|%s|%s|%s\n", id, ticket.getScreening().getId(),
 				ticket.getCustomer().getId(), ticket.getSeat().getNumber());
 		strings.add(line);
-		System.err.print(line);				
 		
 		// Set up writer
 		try {
@@ -422,11 +420,232 @@ public class DataReadWrite {
 			return false;
 		}
 		
+		// SAVING SEAT
+		// Set up the reader
+		try {
+			setReader(new BufferedReader(new FileReader("data/screenings.txt")));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// Read in documentation lines
+		strings = new ArrayList<String>();
+		try {
+			line = reader.readLine();
+			while (line != null) {
+				
+				// If line starts with '#', store line
+				if (line.startsWith("#")) {
+					strings.add(line + "\n");
+				}
+				
+				line = reader.readLine();
+			}
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}	
+		
+		// Load all screenings (and thus, seats)
+		ArrayList<Screening> screenings = (ArrayList<Screening>) loadScreenings();
+		
+		// Go through all existing screenings
+		for (Screening sc : screenings) {
+			
+			// Add to save list
+			line = String.format("%s|%s|%s|%s|%s|%s", sc.getId(), sc.getFilmName(),
+					sc.getCinemaName(), sc.getDay(), sc.getTime(), sc.getDescription());
+			
+			for (Seat s : sc.getSeats()) {
+				
+				// If the seat is being booked, set it to be so
+				if ((sc.getId().equals(ticket.getScreening().getId()) && 
+						(s.getNumber().equals(ticket.getSeat().getNumber())))){
+					s.book();
+				}
+				
+				// Add all seats to the line
+				int takenInt = 0;
+				if (s.isTaken())
+					takenInt = 1;
+				line = line.concat(String.format("|%d%s", takenInt, s.getNumber()));
+			}
+			line = line.concat("\n");
+			strings.add(line);
+		}
+				
+		// Set up writer
+		try {
+			setWriter(new FileWriter("data/screenings.txt"));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// Print ticket strings to doc
+		try {
+			for (String s : strings) {
+				writer.append(s);
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 		return true;
 	}
 	
 	public boolean removeTicket(Ticket ticket) {
-		// INCOMPLETE
+		
+		// UPDATE TICKETS
+		// Set up the reader
+		try {
+			setReader(new BufferedReader(new FileReader("data/tickets.txt")));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// Read in documentation lines
+		ArrayList<String> strings = new ArrayList<String>();
+		try {
+			String line = reader.readLine();
+			while (line != null) {
+				
+				// If line starts with '#', store line
+				if (line.startsWith("#")) {
+					strings.add(line + "\n");
+				}
+				
+				line = reader.readLine();
+			}
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}	
+		
+		// Load all customers (and thus, tickets)
+		ArrayList<Customer> customers = (ArrayList<Customer>) loadCustomers();
+		
+		// Go through all existing tickets
+		for (Customer c : customers) {
+			for (Ticket t : c.getTickets()) {
+				
+				// If this ticket is the ticket, don't add it to the new strings list
+				if (t.getId().equals(ticket.getId()))
+				continue;
+				
+				// Add to save list
+				String line = String.format("%s|%s|%s|%s\n", t.getId(), t.getScreening().getId(),
+						t.getCustomer().getId(), t.getSeat().getNumber());
+				strings.add(line);
+			}
+		}
+		
+		// Set up writer
+		try {
+			setWriter(new FileWriter("data/tickets.txt"));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// Print ticket strings to doc
+		try {
+			for (String s : strings) {
+				writer.append(s);
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// UPDATE SEAT
+		// Set up the reader
+		try {
+			setReader(new BufferedReader(new FileReader("data/screenings.txt")));
+		} 
+		catch (FileNotFoundException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// Read in documentation lines
+		strings = new ArrayList<String>();
+		try {
+			String line = reader.readLine();
+			while (line != null) {
+				
+				// If line starts with '#', store line
+				if (line.startsWith("#")) {
+					strings.add(line + "\n");
+				}
+				
+				line = reader.readLine();
+			}
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}	
+		
+		// Load all screenings (and thus, seats)
+		ArrayList<Screening> screenings = (ArrayList<Screening>) loadScreenings();
+		
+		// Go through all existing screenings
+		for (Screening sc : screenings) {
+			
+			// Add to save list
+			String line = String.format("%s|%s|%s|%s|%s|%s", sc.getId(), sc.getFilmName(),
+					sc.getCinemaName(), sc.getDay(), sc.getTime(), sc.getDescription());
+			
+			for (Seat s : sc.getSeats()) {
+				
+				// If the seat is being booked, set it to be so
+				if ((sc.getId().equals(ticket.getScreening().getId()) && 
+						(s.getNumber().equals(ticket.getSeat().getNumber())))){
+					s.unbook();
+				}
+				
+				// Add all seats to the line
+				int takenInt = 0;
+				if (s.isTaken())
+					takenInt = 1;
+				line = line.concat(String.format("|%d%s", takenInt, s.getNumber()));
+			}
+			line = line.concat("\n");
+			strings.add(line);
+		}
+				
+		// Set up writer
+		try {
+			setWriter(new FileWriter("data/screenings.txt"));
+		} 
+		catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
+		// Print ticket strings to doc
+		try {
+			for (String s : strings) {
+				writer.append(s);
+			}
+			writer.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+			return false;
+		}
+		
 		return false;
 	}
 }

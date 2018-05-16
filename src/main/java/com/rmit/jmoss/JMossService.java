@@ -3,10 +3,7 @@ package com.rmit.jmoss;
 import com.rmit.jmoss.exceptions.CredentialsTooShortException;
 import com.rmit.jmoss.exceptions.FilmNameTooShortException;
 import com.rmit.jmoss.exceptions.NotEnoughInformationException;
-import com.rmit.jmoss.models.Clerk;
-import com.rmit.jmoss.models.Customer;
-import com.rmit.jmoss.models.Screening;
-import com.rmit.jmoss.models.Seat;
+import com.rmit.jmoss.models.*;
 import com.rmit.jmoss.util.DataReadWrite;
 
 import java.util.Collection;
@@ -39,7 +36,11 @@ public class JMossService {
 
         return this.jMoss.searchByFilm(filmName);
     }
-
+    
+    public Collection<Screening> searchByCineplex(String cineplex){
+    	
+    	return this.jMoss.searchByCinema(cineplex);
+    }
     public boolean logClerck(String user, String password) throws CredentialsTooShortException {
         if(user == null || password == null) {
             throw new CredentialsTooShortException();
@@ -54,13 +55,27 @@ public class JMossService {
     }
     
 
-    public boolean book (String screenID, String email, String suburb, String seatNum) throws NotEnoughInformationException {
-    	if (screenID != null && email != null && suburb != null && seatNum !=null) {
-    	return jMoss.addBooking(screenID, email, suburb, seatNum);
-    	} else {
-    		return false;
-    	}
+    public Ticket book(String screenID, String email, String suburb, String seatNum) throws NotEnoughInformationException {
+    	if (screenID == null || email == null || suburb == null || seatNum == null) {
+    	    throw new NotEnoughInformationException();
+        }
+
+        Screening screening = jMoss.getScreening(screenID);
+    	if(screening == null) {
+            throw new NotEnoughInformationException();
+        }
+
+        return jMoss.addBooking(screening, email, suburb, seatNum);
     }
+
+    public void confirmBooking(Ticket ticket) throws NotEnoughInformationException {
+        if (ticket == null) {
+            throw new NotEnoughInformationException();
+        }
+
+        jMoss.confirmBooking(ticket);
+    }
+
     
     public boolean deleteBooking (String idT, String idS) { //asks for ticket id and screening id
     	if (idT != null && idS != null) {

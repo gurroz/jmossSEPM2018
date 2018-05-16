@@ -40,7 +40,9 @@ public class MenuService {
     public static MenuService getInstance() {
         if(instance == null) {
             instance = new MenuService();
-        }
+        } else {
+	    instance = new MenuService();
+	}
 
         return instance;
     }
@@ -281,7 +283,7 @@ public class MenuService {
 
 	private void logout() {
         System.out.println("\n" + "Logout Successful" + "\n");
-        showLogin();
+        MenuService.getInstance().showLogin();
     }
 
     private void exit() {

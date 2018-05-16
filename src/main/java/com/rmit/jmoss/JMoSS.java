@@ -23,6 +23,7 @@ public class JMoSS {
 	private Collection<Screening> screenings;
 	private Collection<Customer> customers;
 	private Collection<Clerk> clerks;
+	private ArrayList<Ticket> customerTickets;
 	
 	
 	// Constructor
@@ -176,5 +177,13 @@ public class JMoSS {
 			return false;
 		}
 		
+	}
+	
+	public ArrayList<Ticket> getCustomerTickets(String email) { //asks for customer email and return all the tickets purchased
+		customerTickets = null;
+		for (Ticket t : getCustomer(email).getTickets()) {
+			customerTickets.add(t);
+		}
+		return customerTickets;
 	}
 }

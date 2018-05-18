@@ -135,7 +135,7 @@ public class JMoSS {
 				cust = new Customer(null, email, suburb);
 			}
 
-			Ticket ticket = new Ticket(null, cust, screening, seat);
+			Ticket ticket = new Ticket("0", cust, screening, seat);
 			cust.addTicket(ticket);
 			return ticket;
 		}

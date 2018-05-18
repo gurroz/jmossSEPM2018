@@ -211,7 +211,8 @@ public class MenuService {
             showMovieDetail(movieId);
 
         } catch (Exception e) {
-            showCineplexSearch();
+            e.printStackTrace();
+        	showCineplexSearch();
         }
     }
 

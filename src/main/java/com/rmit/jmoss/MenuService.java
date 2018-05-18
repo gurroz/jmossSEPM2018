@@ -321,7 +321,8 @@ public class MenuService {
         	// Prompt selection of operation
 	        System.out.println("* Enter operation");
 	        System.out.println("1. Remove Booking");
-	        System.out.println("2. Reschedule Booking");            
+	        System.out.println("2. Reschedule Booking");  
+	        System.out.println("0. Return to Menu");            
             try {
                 int option = scanner.nextInt();
 
@@ -332,6 +333,8 @@ public class MenuService {
                     case 2:
                     	showRescheduleBooking(ticketId);
                         break;
+                    case 0:
+                        showMainMenu();
                     default:
                         System.err.println("** Enter a valid option");
                         scanner.nextLine();

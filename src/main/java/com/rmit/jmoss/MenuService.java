@@ -131,7 +131,7 @@ public class MenuService {
         System.out.println("");
         System.out.println("* Enter the name of the movie you are looking for: ");
 
-        String movieName = scanner.next();
+        String movieName = scanner.nextLine();
         try {
             Collection<Screening> searchResults = jMossService.searchByFilmName(movieName);
 
@@ -162,7 +162,7 @@ public class MenuService {
             System.out.println("");
             System.out.println("* Enter the id of the movie to show the detail: ");
 
-            String movieId = scanner.next();
+            String movieId = scanner.nextLine();
             showMovieDetail(movieId);
 
         } catch (FilmNameTooShortException e) {
@@ -173,7 +173,7 @@ public class MenuService {
 	
 	private void showCineplexSearch() {
         System.out.println("\n* Enter the cineplex you are looking for: ");
-        String cineplex = scanner.next();
+        String cineplex = scanner.nextLine();
         try {
             Collection<Screening> searchResults = jMossService.searchByCineplex(cineplex);
             if(searchResults.isEmpty()) {

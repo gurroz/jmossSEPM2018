@@ -30,7 +30,7 @@ public class JMossService {
     }
 
     public Collection<Screening> searchByFilmName(String filmName) throws FilmNameTooShortException {
-        if(filmName == null || filmName.length() < 3) {
+        if(filmName == null || filmName.length() < 1) {
             throw new FilmNameTooShortException();
         }
 

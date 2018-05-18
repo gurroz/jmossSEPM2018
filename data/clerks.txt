@@ -18,4 +18,3 @@
 0012|User12|mypassword12
 0013|User13|mypassword13
 0014|User14|mypassword14
-

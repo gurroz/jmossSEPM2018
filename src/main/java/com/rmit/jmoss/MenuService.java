@@ -35,7 +35,6 @@ public class MenuService {
     public MenuService() {
         this.scanner = new Scanner(System.in);
         this.jMossService = JMossService.getInstance();
-
     }
 
     public static MenuService getInstance() {
@@ -82,7 +81,7 @@ public class MenuService {
 
         try {
             int option = scanner.nextInt();
-
+            scanner.nextLine();
 
             switch (option) {
                 case 1:
@@ -123,15 +122,20 @@ public class MenuService {
         for (String cineplex : cineplexes) {
         	System.out.println(cineplex);
         }
-        
+
+    	scanner.nextLine();
         showMainMenu();
     }
     
 	private void showMovieSearch() {
         System.out.println("");
-        System.out.println("* Enter the name of the movie you are looking for: ");
+        System.out.println("* Enter the name of the movie you are looking for: (Enter 0 to exit)");
 
-        String movieName = scanner.next();
+        String movieName = scanner.nextLine();
+        if (movieName.equals("0")) {
+        	scanner.nextLine();
+        	showMainMenu();
+        }
         try {
             Collection<Screening> searchResults = jMossService.searchByFilmName(movieName);
 
@@ -160,9 +164,13 @@ public class MenuService {
             tableResults.printTable();
 
             System.out.println("");
-            System.out.println("* Enter the id of the movie to show the detail: ");
+            System.out.println("* Enter the id of the movie to show the detail: (Enter 0 to exit)");
 
-            String movieId = scanner.next();
+            String movieId = scanner.nextLine();
+            if (movieId.equals("0")) {
+            	scanner.nextLine();
+            	showMainMenu();
+            }
             showMovieDetail(movieId);
 
         } catch (FilmNameTooShortException e) {
@@ -173,7 +181,7 @@ public class MenuService {
 	
 	private void showCineplexSearch() {
         System.out.println("\n* Enter the cineplex you are looking for: ");
-        String cineplex = scanner.next();
+        String cineplex = scanner.nextLine();
         try {
             Collection<Screening> searchResults = jMossService.searchByCineplex(cineplex);
             if(searchResults.isEmpty()) {
@@ -205,9 +213,13 @@ public class MenuService {
             tableResults.printTable();
 
             System.out.println("");
-            System.out.println("* Enter the id of the movie to show the detail: ");
+            System.out.println("* Enter the id of the movie to show the detail: (Enter 0 to exit)");
 
             String movieId = scanner.next();
+            if (movieId.equals("0")) {
+            	scanner.nextLine();
+            	showMainMenu();
+            }
             showMovieDetail(movieId);
 
         } catch (Exception e) {
@@ -223,10 +235,18 @@ public class MenuService {
             if(screening.viewSeats()) {
             	System.out.println("* Enter the seats number you want to book, separated by comas");
                 String seats = scanner.next();
+                if (seats.equals("0")) {
+                	scanner.nextLine();
+                	showMainMenu();
+                }
                 makeBooking(screening, seats);
             } else {
-            	System.out.println("* Enter the id of the movie to show the detail: ");
+            	System.out.println("* Enter the id of the movie to show the detail: (Enter 0 to exit)");
                 String movieId = scanner.next();
+                if (movieId.equals("0")) {
+                	scanner.nextLine();
+                	showMainMenu();
+                }
                 showMovieDetail(movieId);
             }
         } catch (FilmNameTooShortException e) {
@@ -272,9 +292,12 @@ public class MenuService {
                         jMossService.confirmBooking(ticket);
                     }
 
-                    System.out.println("Tickets booked correctly ");
+                    System.out.println("Tickets booked correctly");
+                    scanner.nextLine();
+                    showMainMenu();
                 } else {
-                    showMovieDetail(screening.getId());
+                    scanner.nextLine();
+                    showMainMenu();
                     return;
                 }
             }  catch (Exception e) {
@@ -346,6 +369,7 @@ public class MenuService {
                     	showRescheduleBooking(ticketId);
                         break;
                     case 0:
+                        scanner.nextLine();
                         showMainMenu();
                     default:
                         System.err.println("** Enter a valid option");
@@ -382,7 +406,8 @@ public class MenuService {
         catch (CredentialsTooShortException e) {
 			e.printStackTrace();
 		}
-		
+
+		scanner.nextLine();
 		showMainMenu();
 	}
 

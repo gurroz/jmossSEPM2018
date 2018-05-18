@@ -177,4 +177,22 @@ public class JMoSS {
 		}
 		return ticket;
 	}
+
+	public Collection<String> getAllCineplexes () {
+		Collection<String> cineplexes = new ArrayList<String>();
+		
+		for (Screening sc : this.screenings) {
+			boolean exists = false;
+			for (String s : cineplexes) {
+				if (s.equals(sc.getCinemaName()))
+					exists = true;
+			}
+			
+			if (!exists) {
+				cineplexes.add(sc.getCinemaName());
+			}
+		}
+		
+		return cineplexes;
+	}
 }

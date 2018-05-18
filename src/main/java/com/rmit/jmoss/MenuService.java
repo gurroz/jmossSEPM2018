@@ -86,6 +86,7 @@ public class MenuService {
 
             switch (option) {
                 case 1:
+                	showAllCineplex();
                     break;
                 case 2:
                 	showCineplexSearch();
@@ -114,7 +115,18 @@ public class MenuService {
             showMainMenu();
         }
     }
+    private void showAllCineplex() {
+        System.out.println("");
+        System.out.println("Cineplexes: ");
 
+        Collection<String> cineplexes = jMossService.getAllCineplexes();
+        for (String cineplex : cineplexes) {
+        	System.out.println(cineplex);
+        }
+        
+        showMainMenu();
+    }
+    
 	private void showMovieSearch() {
         System.out.println("");
         System.out.println("* Enter the name of the movie you are looking for: ");
@@ -157,8 +169,8 @@ public class MenuService {
             System.err.println("Enter a valid name, larger that 2 characters");
             showMovieSearch();
         }
-
     }
+	
 	private void showCineplexSearch() {
         System.out.println("\n* Enter the cineplex you are looking for: ");
         String cineplex = scanner.next();
